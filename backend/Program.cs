@@ -1,5 +1,5 @@
-using api;
-using api.Models;
+using backend;
+using common.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,9 +13,9 @@ builder.Services.AddOpenApi();
 
 string? connectionString = builder.Configuration.GetConnectionString("StorageManagerConnection");
 builder.Services.AddDbContext<StorageManagerDbContext>(options => options.UseNpgsql(connectionString));
-builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<StorageManagerDbContext>()
-    .AddDefaultTokenProviders();
+// builder.Services.AddIdentity<User, IdentityRole>()
+//     .AddEntityFrameworkStores<StorageManagerDbContext>()
+//     .AddDefaultTokenProviders();
 
 var app = builder.Build();
 

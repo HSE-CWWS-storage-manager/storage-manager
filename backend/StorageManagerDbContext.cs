@@ -1,9 +1,9 @@
-﻿using api.Models;
+﻿using common.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace api;
+namespace backend;
 
 public class StorageManagerDbContext(DbContextOptions<StorageManagerDbContext> options)
     : IdentityDbContext<IdentityUser>(options)
