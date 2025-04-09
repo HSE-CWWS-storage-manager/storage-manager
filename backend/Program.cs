@@ -1,21 +1,24 @@
 using backend;
-using common.Models;
+using backend.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddTransient<IAccountService, AccountService>();
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 string? connectionString = builder.Configuration.GetConnectionString("StorageManagerConnection");
 builder.Services.AddDbContext<StorageManagerDbContext>(options => options.UseNpgsql(connectionString));
-// builder.Services.AddIdentity<User, IdentityRole>()
-//     .AddEntityFrameworkStores<StorageManagerDbContext>()
-//     .AddDefaultTokenProviders();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<StorageManagerDbContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -24,9 +27,14 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+else
+{
+    app.UseExceptionHandler("/error");
+}
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
