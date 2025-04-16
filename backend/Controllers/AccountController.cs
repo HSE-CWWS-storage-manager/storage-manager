@@ -1,28 +1,22 @@
 ﻿using backend.Models;
 using backend.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class AccountController : ControllerBase
+public class AccountController(IAccountService accountService) : ControllerBase
 {
-
-    private readonly IAccountService _accountService;
-    
-    public AccountController(IAccountService accountService)
-    {
-        _accountService = accountService;
-    }
-
     [HttpPost("Register")]
     public IActionResult Register(UserRegistrationModel model)
     {
         if (!ModelState.IsValid)
             return Problem();
         
-        _accountService.Create(model, out var result);
+        accountService.Create(model, out var result);
         
         if (result.Succeeded)
         {
@@ -37,5 +31,21 @@ public class AccountController : ControllerBase
         }
         
         return Problem(extensions: dict);
+    }
+
+    [HttpPost("Login")]
+    public IActionResult Login(UserAuthenticationModel model)
+    {
+        if (!ModelState.IsValid)
+            return Problem();
+
+        return Ok(accountService.Login(model));
+    }
+    
+    [HttpGet("Test")]
+    [Authorize]
+    public IActionResult Test()
+    {
+        return Ok("test");
     }
 }
