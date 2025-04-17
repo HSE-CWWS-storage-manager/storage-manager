@@ -1,7 +1,5 @@
 ﻿using backend.Models;
 using backend.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
@@ -15,21 +13,18 @@ public class AccountController(IAccountService accountService) : ControllerBase
     {
         if (!ModelState.IsValid)
             return Problem();
-        
+
         accountService.Create(model, out var result);
-        
-        if (result.Succeeded)
+
+        if (result.Succeeded) return Ok(new
         {
-            return Ok(model);
-        }
+            model.Email
+        });
 
         var dict = new Dictionary<string, object?>();
 
-        foreach (var error in result.Errors)
-        {
-            dict.Add(error.Code, error.Description);
-        }
-        
+        foreach (var error in result.Errors) dict.Add(error.Code, error.Description);
+
         return Problem(extensions: dict);
     }
 
@@ -40,12 +35,5 @@ public class AccountController(IAccountService accountService) : ControllerBase
             return Problem();
 
         return Ok(accountService.Login(model));
-    }
-    
-    [HttpGet("Test")]
-    [Authorize]
-    public IActionResult Test()
-    {
-        return Ok("test");
     }
 }

@@ -8,20 +8,16 @@ using backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace backend.Services;
+namespace backend.Services.Impl;
 
 public class AccountService(IMapper mapper, UserManager<IdentityUser> userManager) : IAccountService
 {
-    
     public IdentityUser? Create(UserRegistrationModel model, out IdentityResult result)
     {
         var user = mapper.Map<IdentityUser>(model);
         result = userManager.CreateAsync(user, model.Password).GetAwaiter().GetResult();
 
-        if (result.Succeeded)
-        {
-            return user;
-        }
+        if (result.Succeeded) return user;
 
         return null;
     }
@@ -29,20 +25,21 @@ public class AccountService(IMapper mapper, UserManager<IdentityUser> userManage
     public TokenResponseModel Login(UserAuthenticationModel model)
     {
         var user = GetUser(model.Email, model.Password).GetAwaiter().GetResult();
-        
+
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, user.Id),
             new(JwtRegisteredClaimNames.Email, user.Email!),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
-        
+
         var jwt = new JwtSecurityToken(
-            issuer: AuthOptions.Issuer,
-            audience: AuthOptions.Audience,
-            claims: claims,
+            AuthOptions.Issuer,
+            AuthOptions.Audience,
+            claims,
             expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(AuthOptions.Lifetime)),
-            signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(),
+                SecurityAlgorithms.HmacSha256));
         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
         return new TokenResponseModel(encodedJwt);
@@ -53,8 +50,12 @@ public class AccountService(IMapper mapper, UserManager<IdentityUser> userManage
         var user = await userManager.FindByNameAsync(email);
 
         if (user == null || !await userManager.CheckPasswordAsync(user, password))
-            throw new HttpResponseException((int) HttpStatusCode.Forbidden, "Email or password incorrect!");
-        
+            throw new HttpResponseException((int)HttpStatusCode.Forbidden, new
+            {
+                Error = "Email or password incorrect!",
+                Code = HttpStatusCode.Forbidden
+            });
+
         return user;
     }
 }

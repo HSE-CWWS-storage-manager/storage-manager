@@ -2,6 +2,7 @@ using backend;
 using backend.Auth;
 using backend.Filters;
 using backend.Services;
+using backend.Services.Impl;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string? connectionString = builder.Configuration.GetConnectionString("StorageManagerConnection");
+var connectionString = builder.Configuration.GetConnectionString("StorageManagerConnection");
 builder.Services.AddDbContext<StorageManagerDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<StorageManagerDbContext>()
@@ -63,13 +64,9 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-{
     app.MapOpenApi();
-}
 else
-{
     app.UseExceptionHandler("/error");
-}
 
 app.UseHttpsRedirection();
 
