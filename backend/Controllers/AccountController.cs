@@ -1,4 +1,4 @@
-﻿using backend.Models;
+﻿using backend.Dtos.Request;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +9,20 @@ namespace backend.Controllers;
 public class AccountController(IAccountService accountService) : ControllerBase
 {
     [HttpPost("Register")]
-    public IActionResult Register(UserRegistrationModel model)
+    public async Task<IActionResult> Register(UserRegistrationRequest request)
     {
         if (!ModelState.IsValid)
             return Problem();
 
-        accountService.Create(model, out var result);
+        var tuple = await accountService.Create(request);
+        var user = tuple.Item1;
+        var result = tuple.Item2;
 
-        if (result.Succeeded) return Ok(new
-        {
-            model.Email
-        });
+        if (result.Succeeded)
+            return Ok(new
+            {
+                user?.Email
+            });
 
         var dict = new Dictionary<string, object?>();
 
@@ -29,11 +32,11 @@ public class AccountController(IAccountService accountService) : ControllerBase
     }
 
     [HttpPost("Login")]
-    public IActionResult Login(UserAuthenticationModel model)
+    public async Task<IActionResult> Login(UserAuthenticationRequest request)
     {
         if (!ModelState.IsValid)
             return Problem();
 
-        return Ok(accountService.Login(model));
+        return Ok(await accountService.Login(request));
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using backend.Models;
+using backend.Dtos.Request;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.Mapping;
@@ -8,7 +8,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<UserRegistrationModel, IdentityUser>()
+        CreateMap<UserRegistrationRequest, IdentityUser>()
             .ForMember(u => u.UserName, opt => opt.MapFrom(x => x.Email));
     }
 }

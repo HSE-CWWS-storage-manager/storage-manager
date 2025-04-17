@@ -3,8 +3,9 @@ using System.Net;
 using System.Security.Claims;
 using AutoMapper;
 using backend.Auth;
+using backend.Dtos.Request;
+using backend.Dtos.Response;
 using backend.Exceptions;
-using backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
@@ -12,19 +13,17 @@ namespace backend.Services.Impl;
 
 public class AccountService(IMapper mapper, UserManager<IdentityUser> userManager) : IAccountService
 {
-    public IdentityUser? Create(UserRegistrationModel model, out IdentityResult result)
+    public async Task<Tuple<IdentityUser?, IdentityResult>> Create(UserRegistrationRequest request)
     {
-        var user = mapper.Map<IdentityUser>(model);
-        result = userManager.CreateAsync(user, model.Password).GetAwaiter().GetResult();
+        var user = mapper.Map<IdentityUser>(request);
+        var result = await userManager.CreateAsync(user, request.Password);
 
-        if (result.Succeeded) return user;
-
-        return null;
+        return new(user, result);
     }
 
-    public TokenResponseModel Login(UserAuthenticationModel model)
+    public async Task<TokenResponse> Login(UserAuthenticationRequest request)
     {
-        var user = GetUser(model.Email, model.Password).GetAwaiter().GetResult();
+        var user = await GetUser(request.Email, request.Password);
 
         var claims = new List<Claim>
         {
@@ -42,7 +41,7 @@ public class AccountService(IMapper mapper, UserManager<IdentityUser> userManage
                 SecurityAlgorithms.HmacSha256));
         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-        return new TokenResponseModel(encodedJwt);
+        return new TokenResponse(encodedJwt);
     }
 
     private async Task<IdentityUser> GetUser(string email, string password)

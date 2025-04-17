@@ -1,10 +1,11 @@
-﻿using backend.Models;
+﻿using backend.Dtos.Request;
+using backend.Dtos.Response;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.Services;
 
 public interface IAccountService
 {
-    IdentityUser? Create(UserRegistrationModel model, out IdentityResult result);
-    TokenResponseModel Login(UserAuthenticationModel model);
+    Task<Tuple<IdentityUser?, IdentityResult>> Create(UserRegistrationRequest request);
+    Task<TokenResponse> Login(UserAuthenticationRequest request);
 }
