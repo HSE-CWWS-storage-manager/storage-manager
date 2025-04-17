@@ -44,7 +44,7 @@ builder.Services.AddAuthentication(options =>
                 Console.WriteLine($"Authentication failed: {context.Exception}");
                 return Task.CompletedTask;
             },
-            OnTokenValidated = context =>
+            OnTokenValidated = _ =>
             {
                 Console.WriteLine("Token validated successfully");
                 return Task.CompletedTask;

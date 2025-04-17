@@ -218,6 +218,107 @@ namespace backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("backend.Models.Equipment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SerialNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Equipments");
+                });
+
+            modelBuilder.Entity("backend.Models.EquipmentTransfer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("EquipmentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("InitiatorId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("RecipientId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.HasIndex("InitiatorId");
+
+                    b.HasIndex("RecipientId");
+
+                    b.ToTable("EquipmentTransfers");
+                });
+
+            modelBuilder.Entity("backend.Models.EquipmentWriteOff", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("EquipmentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("InitiatorId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.HasIndex("InitiatorId");
+
+                    b.ToTable("EquipmentWriteOffs");
+                });
+
+            modelBuilder.Entity("backend.Models.Student", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Group")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Students");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -267,6 +368,48 @@ namespace backend.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("backend.Models.EquipmentTransfer", b =>
+                {
+                    b.HasOne("backend.Models.Equipment", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Initiator")
+                        .WithMany()
+                        .HasForeignKey("InitiatorId");
+
+                    b.HasOne("backend.Models.Student", "Recipient")
+                        .WithMany()
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Equipment");
+
+                    b.Navigation("Initiator");
+
+                    b.Navigation("Recipient");
+                });
+
+            modelBuilder.Entity("backend.Models.EquipmentWriteOff", b =>
+                {
+                    b.HasOne("backend.Models.Equipment", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Initiator")
+                        .WithMany()
+                        .HasForeignKey("InitiatorId");
+
+                    b.Navigation("Equipment");
+
+                    b.Navigation("Initiator");
                 });
 #pragma warning restore 612, 618
         }
