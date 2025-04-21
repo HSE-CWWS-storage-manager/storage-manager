@@ -8,6 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MudBlazor" Version="8.5.1" />
+        <ProjectReference Include="..\..\common\common.csproj" />
         <ProjectReference Include="..\frontend.Client\frontend.Client.csproj"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.3"/>
     </ItemGroup>
@@ -16,6 +18,10 @@
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\lib\" />
     </ItemGroup>
 
 </Project>

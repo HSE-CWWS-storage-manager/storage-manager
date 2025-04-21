@@ -1,23 +1,37 @@
-﻿@inherits LayoutComponentBase
+﻿@using common.Dtos
+@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<MudLayout>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Medium">
+            <CascadingValue Value="EquipmentData">
+                @Body
+            </CascadingValue>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code {
+    public required EquipmentDto[] EquipmentData { get; init; } =
+    [
+        new(Guid.Empty,
+            "",
+            "Синтезатор Yamaha S670 автоаккомпанементом ,61 клавиша 128-голосная полифония,896 тембров,230 стилей,Pitch Band.USB.акустика 2*15Вт,БП",
+            "",
+            "4101042205",
+            5, 4),
+        new(Guid.NewGuid(), "", "B", "", "", 4, 2), new(Guid.NewGuid(), "", "C", "", "", 53, 52)
+    ];
+
+}

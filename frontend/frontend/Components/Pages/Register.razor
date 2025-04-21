@@ -1,0 +1,43 @@
+@page "/auth/register"
+@* @rendermode InteractiveAuto *@
+@rendermode InteractiveServer
+
+<PageTitle>Регистрация</PageTitle>
+
+<MudGrid Justify="Justify.Center">
+    <PageHeader Backlink="/auth">Регистраций</PageHeader>
+    <MudItem xs="12">
+        <MudForm>
+            <MudTextField
+                T="string"
+                @bind-Text="Mail"
+                Label="Почта"
+                InputType="InputType.Email"
+                Variant="Variant.Outlined"></MudTextField>
+            <MudTextField
+                T="string"
+                @bind-Text="Password"
+                Label="Пароль"
+                InputType="InputType.Password"
+                Variant="Variant.Outlined"></MudTextField>
+            <MudDivider />
+            <MudText>Выберите желаемые права доступа</MudText>
+            <MudRadioGroup T="Role">
+                <MudRadio Value="Role.Manager">Менеджер</MudRadio>
+                <MudRadio Value="Role.Student">Студент</MudRadio>
+            </MudRadioGroup>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Зарегистрироваться</MudButton>
+        </MudForm>
+    </MudItem>
+</MudGrid>
+
+@code {
+
+    public enum Role
+    {
+        Manager, Student
+    }
+    
+    public string? Mail { get; set; }
+    public string? Password { get; set; }
+}

@@ -1,0 +1,28 @@
+@page "/equipment"
+
+<PageTitle>Оборудование</PageTitle>
+
+<MudGrid Justify="Justify.Center">
+    <PageHeader Backlink="/home">Оборудование</PageHeader>
+    <MudItem>
+        <MudTextField T="string" Label="Поиск"></MudTextField>
+    </MudItem>
+    <MudItem xs="12">
+        <MudDataGrid Items="EquipmentData">
+            <Columns>
+                <PropertyColumn Property="item => item.Name" Title="Наименование"/>
+                <PropertyColumn Property="item => item.InStock" Title="Количество"/>
+                @* <PropertyColumn Property="item => item.Id" Title="Guid"/> *@
+                <TemplateColumn>
+                    <CellTemplate>
+                        <MudButton Href="@($"/equipment/{context.Item.Id.ToString()}")">Перейти</MudButton>
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+        </MudDataGrid>
+    </MudItem>
+</MudGrid>
+
+@code {
+    [CascadingParameter] public required EquipmentDto[] EquipmentData { get; init; }
+}

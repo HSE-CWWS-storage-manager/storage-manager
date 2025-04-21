@@ -1,0 +1,33 @@
+@page "/auth/login"
+@* @rendermode InteractiveAuto *@
+@rendermode InteractiveServer
+
+<PageTitle>Вход</PageTitle>
+
+<MudGrid Justify="Justify.Center">
+    <PageHeader Backlink="/auth">Вход</PageHeader>
+    <MudItem xs="12">
+        <MudForm>
+            <MudTextField
+                T="string"
+                @bind-Text="Mail"
+                Label="Почта"
+                InputType="InputType.Email"
+                Variant="Variant.Outlined"></MudTextField>
+            <MudTextField
+                T="string"
+                @bind-Text="Password"
+                Label="Пароль"
+                InputType="InputType.Password"
+                Variant="Variant.Outlined"></MudTextField>
+            <MudSpacer />
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Войти</MudButton>
+        </MudForm>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+    public string? Mail { get; set; }
+    public string? Password { get; set; }
+}
