@@ -9,8 +9,10 @@
 <MudLayout>
     <MudMainContent>
         <MudContainer MaxWidth="MaxWidth.Medium">
-            <CascadingValue Value="EquipmentData">
-                @Body
+            <CascadingValue Value="ReportData">
+                <CascadingValue Value="EquipmentData">
+                    @Body
+                </CascadingValue>
             </CascadingValue>
         </MudContainer>
     </MudMainContent>
@@ -34,4 +36,9 @@
         new(Guid.NewGuid(), "", "B", "", "", 4, 2), new(Guid.NewGuid(), "", "C", "", "", 53, 52)
     ];
 
+    public required EquipmentOperationDto[] ReportData { get; init; } = [
+        new(Guid.Empty, Guid.Empty, Guid.Empty, DateTime.Now, EquipmentOperationType.Transfer),
+        new(Guid.NewGuid(), Guid.Empty, Guid.Empty, DateTime.Now, EquipmentOperationType.Transfer),
+        new(Guid.NewGuid(), Guid.Empty, Guid.Empty, DateTime.Now, EquipmentOperationType.WriteOff)
+    ];
 }
