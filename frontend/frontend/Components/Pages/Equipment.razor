@@ -11,8 +11,12 @@
         <MudDataGrid Items="EquipmentData">
             <Columns>
                 <PropertyColumn Property="item => item.Name" Title="Наименование"/>
-                <PropertyColumn Property="item => item.InStock" Title="Количество"/>
                 @* <PropertyColumn Property="item => item.Id" Title="Guid"/> *@
+                <TemplateColumn Title="Количество">
+                    <CellTemplate>
+                        @(context.Item?.InStock ?? -1)/@((context.Item?.InStock ?? 0) + (context.Item?.OnLoan ?? 0))
+                    </CellTemplate>
+                </TemplateColumn>
                 <TemplateColumn>
                     <CellTemplate>
                         <MudButton Href="@($"/equipment/{context.Item.Id.ToString()}")">Перейти</MudButton>

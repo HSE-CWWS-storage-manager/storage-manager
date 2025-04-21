@@ -10,7 +10,7 @@
             </tr>
             <tr>
                 <th>Количество</th>
-                <td><MudText>@(ActualItem?.InStock ?? -1)</MudText></td>
+                <td><MudText>@(ActualItem?.InStock ?? -1)/@((ActualItem?.InStock ?? 0) + (ActualItem?.OnLoan ?? 0))</MudText></td>
             </tr>
             <tr>
                 <th>Модель</th>
@@ -19,6 +19,10 @@
             <tr>
                 <th>Серийный номер</th>
                 <td><MudText>@(ActualItem?.SerialNumber ?? "Item not found")</MudText></td>
+            </tr>
+            <tr>
+                <th>Инвентарный номер</th>
+                <td><MudText>@(ActualItem?.InventoryNumber ?? "Item not found")</MudText></td>
             </tr>
         </MudSimpleTable>
     </MudItem>
@@ -43,6 +47,7 @@
         {
             _equipmentData = value;
             ActualItem = EquipmentData.FirstOrDefault(x => x.Id.ToString().Equals(Id));
+            Console.WriteLine(ActualItem);
         }
     }
 
