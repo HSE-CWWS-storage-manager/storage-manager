@@ -1,7 +1,19 @@
-@page "/equipment/{id}"
+@page "/equipment/transfer/{id}"
+
 
 <MudGrid Justify="Justify.Center">
-    <PageHeader Backlink="/equipment">Оборудование</PageHeader>
+    <PageHeader Backlink="@($"/equipment/{Id}")">Создать передачу</PageHeader>
+    <MudItem xs="12">
+        <MudForm>
+            <MudTextField
+                T="string"
+                @* @bind-Text="Mail" *@
+                Label="ФИО студента"
+                InputType="InputType.Text"
+                Required="true"
+                Variant="Variant.Outlined"></MudTextField>
+        </MudForm>
+    </MudItem>
     <MudItem xs="12">
         <MudSimpleTable>
             <tr>
@@ -27,14 +39,13 @@
         </MudSimpleTable>
     </MudItem>
     <MudItem xs="12">
-        <MudButtonGroup Vertical="true" Variant="Variant.Outlined" FullWidth="true">
-            <MudButton Disabled="@(ActualItem == null)" Href="@($"/equipment/transfer/{Id}")">Выдать студенту</MudButton>
-            <MudButton Disabled="@(ActualItem == null)">Оформить возврат</MudButton>
-            <MudButton Disabled="@(ActualItem == null)">Списать</MudButton>
-            <MudButton Disabled="@(ActualItem == null)">Получить QR-код</MudButton>
-        </MudButtonGroup>
+        <MudText>Передаем один предмет</MudText>
+    </MudItem>
+    <MudItem xs="12">
+        <MudButton FullWidth="true" Variant="Variant.Outlined">Передать</MudButton>
     </MudItem>
 </MudGrid>
+
 
 @code {
     private readonly EquipmentDto[] _equipmentData;
