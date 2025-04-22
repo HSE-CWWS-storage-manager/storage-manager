@@ -1,6 +1,8 @@
 using backend;
 using backend.Auth;
 using backend.Filters;
+using backend.Mapping;
+using backend.Mapping.Impl;
 using backend.Services;
 using backend.Services.Impl;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -55,6 +57,7 @@ builder.Services.AddAuthentication(options =>
     });
 builder.Services.AddAuthorization();
 
+builder.Services.AddTransient<IUserMapper, UserMapper>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 
 builder.Services.AddControllers(options => options.Filters.Add<HttpResponseExceptionFilter>());

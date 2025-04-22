@@ -6,6 +6,8 @@ using backend.Auth;
 using backend.Dtos.Request;
 using backend.Dtos.Response;
 using backend.Exceptions;
+using backend.Mapping;
+using common.Dtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
@@ -13,16 +15,16 @@ using static backend.Utils.StringConstants;
 
 namespace backend.Services.Impl;
 
-public class AccountService(IMapper mapper, UserManager<IdentityUser> userManager) : IAccountService
+public class AccountService(IMapper mapper, IUserMapper userMapper, UserManager<IdentityUser> userManager) : IAccountService
 {
-    public async Task<Tuple<IdentityUser?, IdentityResult>> Create(UserRegistrationRequest request)
+    public async Task<Tuple<UserDto?, IdentityResult>> Create(UserRegistrationRequest request)
     {
         var user = mapper.Map<IdentityUser>(request);
         var result = await userManager.CreateAsync(user, request.Password);
 
         await userManager.AddToRoleAsync(user, UserRole);
 
-        return new(user, result);
+        return new(userMapper.ToUserDto(user, [UserRole]), result);
     }
 
     public async Task<TokenResponse> Login(UserAuthenticationRequest request)

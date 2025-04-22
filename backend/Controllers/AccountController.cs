@@ -19,10 +19,7 @@ public class AccountController(IAccountService accountService) : ControllerBase
         var result = tuple.Item2;
 
         if (result.Succeeded)
-            return Ok(new
-            {
-                user?.Email
-            });
+            return Ok(user);
 
         var dict = new Dictionary<string, object?>();
 
