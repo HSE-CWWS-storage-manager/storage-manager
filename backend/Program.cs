@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
+using static backend.Utils.StringConstants;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("StorageManagerConnection");
@@ -61,6 +63,20 @@ builder.Services.AddOpenApi();
 builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    
+    if (!await roleManager.RoleExistsAsync(AdminRole))
+        await roleManager.CreateAsync(new IdentityRole(AdminRole));
+    
+    if (!await roleManager.RoleExistsAsync(OperatorRole))
+        await roleManager.CreateAsync(new IdentityRole(OperatorRole));
+    
+    if (!await roleManager.RoleExistsAsync(UserRole))
+        await roleManager.CreateAsync(new IdentityRole(UserRole));
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

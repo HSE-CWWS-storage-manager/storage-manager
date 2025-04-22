@@ -9,6 +9,8 @@ using backend.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
+using static backend.Utils.StringConstants;
+
 namespace backend.Services.Impl;
 
 public class AccountService(IMapper mapper, UserManager<IdentityUser> userManager) : IAccountService
@@ -17,6 +19,8 @@ public class AccountService(IMapper mapper, UserManager<IdentityUser> userManage
     {
         var user = mapper.Map<IdentityUser>(request);
         var result = await userManager.CreateAsync(user, request.Password);
+
+        await userManager.AddToRoleAsync(user, UserRole);
 
         return new(user, result);
     }
@@ -29,8 +33,15 @@ public class AccountService(IMapper mapper, UserManager<IdentityUser> userManage
         {
             new(JwtRegisteredClaimNames.Sub, user.Id),
             new(JwtRegisteredClaimNames.Email, user.Email!),
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
+        
+        var roles = await userManager.GetRolesAsync(user);
+        
+        foreach (var role in roles)
+        {
+            claims.Add(new(ClaimTypes.Role, role));
+        }
 
         var jwt = new JwtSecurityToken(
             AuthOptions.Issuer,
