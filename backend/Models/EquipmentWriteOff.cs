@@ -5,6 +5,7 @@ namespace backend.Models;
 public class EquipmentWriteOff
 {
     public Guid Id { get; set; }
+    public Warehouse From { get; set; }
     public Equipment Equipment { get; set; }
     public IdentityUser Initiator { get; set; }
     public int Quantity { get; set; }
