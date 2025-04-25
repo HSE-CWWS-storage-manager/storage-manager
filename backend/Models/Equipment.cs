@@ -6,4 +6,5 @@ public class Equipment
     public string Model { get; set; }
     public string Name { get; set; }
     public string SerialNumber { get; set; }
+    public string InventoryNumber { get; set; }
 }
