@@ -13,5 +13,7 @@ public class StorageManagerDbContext(DbContextOptions<StorageManagerDbContext> o
     public DbSet<EquipmentTransfer> EquipmentTransfers { get; set; }
     public DbSet<EquipmentWriteOff> EquipmentWriteOffs { get; set; }
     public DbSet<Student> Students { get; set; }
+    public DbSet<Warehouse> Warehouses { get; set; }
+    public DbSet<EquipmentRemain> EquipmentRemains { get; set; }
     
 }

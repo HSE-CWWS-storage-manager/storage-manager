@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend;
@@ -11,9 +12,11 @@ using backend;
 namespace backend.Migrations
 {
     [DbContext(typeof(StorageManagerDbContext))]
-    partial class StorageManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250425124719_NewEquipmentModel")]
+    partial class NewEquipmentModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,33 +248,6 @@ namespace backend.Migrations
                     b.ToTable("Equipments");
                 });
 
-            modelBuilder.Entity("backend.Models.EquipmentRemain", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("EquipmentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("OnLoan")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("OnStock")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("WarehouseId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EquipmentId");
-
-                    b.HasIndex("WarehouseId");
-
-                    b.ToTable("EquipmentRemains");
-                });
-
             modelBuilder.Entity("backend.Models.EquipmentTransfer", b =>
                 {
                     b.Property<Guid>("Id")
@@ -369,7 +345,7 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Warehouses");
+                    b.ToTable("Warehouse");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -421,25 +397,6 @@ namespace backend.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("backend.Models.EquipmentRemain", b =>
-                {
-                    b.HasOne("backend.Models.Equipment", "Equipment")
-                        .WithMany()
-                        .HasForeignKey("EquipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("backend.Models.Warehouse", "Warehouse")
-                        .WithMany()
-                        .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Equipment");
-
-                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("backend.Models.EquipmentTransfer", b =>
