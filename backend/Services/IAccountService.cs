@@ -1,6 +1,6 @@
-﻿using backend.Dtos.Request;
-using backend.Dtos.Response;
-using common.Dtos;
+﻿using common.Dtos;
+using common.Dtos.Request;
+using common.Dtos.Response;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.Services;

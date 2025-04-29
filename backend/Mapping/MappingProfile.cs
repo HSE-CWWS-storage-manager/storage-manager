@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using backend.Dtos.Request;
+using common.Dtos.Request;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.Mapping;

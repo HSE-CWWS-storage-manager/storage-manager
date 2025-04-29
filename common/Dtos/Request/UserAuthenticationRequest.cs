@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace backend.Dtos.Request;
+namespace common.Dtos.Request;
 
 public class UserAuthenticationRequest
 {

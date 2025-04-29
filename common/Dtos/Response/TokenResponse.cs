@@ -1,4 +1,4 @@
-﻿namespace backend.Dtos.Response;
+﻿namespace common.Dtos.Response;
 
 public class TokenResponse(string accessToken)
 {

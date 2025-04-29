@@ -3,11 +3,11 @@ using System.Net;
 using System.Security.Claims;
 using AutoMapper;
 using backend.Auth;
-using backend.Dtos.Request;
-using backend.Dtos.Response;
 using backend.Exceptions;
 using backend.Mapping;
 using common.Dtos;
+using common.Dtos.Request;
+using common.Dtos.Response;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 

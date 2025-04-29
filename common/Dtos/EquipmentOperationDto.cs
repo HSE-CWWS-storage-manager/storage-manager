@@ -7,9 +7,9 @@ public enum EquipmentOperationType : ushort
 }
 
 public record EquipmentOperationDto(
-    Guid Id, 
-    Guid EquipmentId, 
-    Guid InitiatorId, 
+    Guid Id,
+    Guid EquipmentId,
+    Guid InitiatorId,
     DateTime Date,
     EquipmentOperationType Type,
     Guid? RecipientId = null,
