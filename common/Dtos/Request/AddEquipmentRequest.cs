@@ -1,3 +1,14 @@
-﻿namespace common.Dtos.Request;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record AddEquipmentRequest(string Model, string Name, string SerialNumber, string InventoryNumber);
+namespace common.Dtos.Request;
+
+public record AddEquipmentRequest(
+    [Required(ErrorMessage = "Model is required")]
+    string Model, 
+    [Required(ErrorMessage = "Name is required")]
+    string Name, 
+    [Required(ErrorMessage = "SerialNumber is required")]
+    string SerialNumber, 
+    [Required(ErrorMessage = "InventoryNumber is required")]
+    string InventoryNumber
+);

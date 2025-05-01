@@ -1,3 +1,8 @@
-﻿namespace common.Dtos.Request;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record DeleteEquipmentRequest(Guid EquipmentId);
+namespace common.Dtos.Request;
+
+public record DeleteEquipmentRequest(
+    [Required(ErrorMessage = "EquipmentId is required")]
+    Guid EquipmentId
+);

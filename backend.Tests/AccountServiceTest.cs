@@ -1,45 +1,13 @@
-﻿using AutoMapper;
-using backend.Mapping;
-using backend.Mapping.Impl;
+﻿using backend.Mapping.Impl;
 using backend.Services.Impl;
 using common.Dtos.Request;
-using Microsoft.AspNetCore.Identity;
-using Moq;
+
+using static backend.Tests.TestUtils;
 
 namespace backend.Tests;
 
 public class AccountServiceTest
 {
-
-    public static Mock<UserManager<IdentityUser>> MockUserManager()
-    {
-        var dict = new Dictionary<string, Tuple<IdentityUser, string>>();
-        var userStoreMock = new Mock<IUserStore<IdentityUser>>();
-        var userManagerMock = new Mock<UserManager<IdentityUser>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
-        
-        userManagerMock.Object.UserValidators.Add(new UserValidator<IdentityUser>());
-        userManagerMock.Object.PasswordValidators.Add(new PasswordValidator<IdentityUser>());
-        
-        userManagerMock.Setup(userManager => userManager.CreateAsync(It.IsAny<IdentityUser>(), It.IsAny<string>()))
-            .ReturnsAsync((IdentityUser user, string _) => dict.ContainsKey(user.Email!) ? IdentityResult.Failed() : IdentityResult.Success)
-            .Callback<IdentityUser, string>((x, y) =>
-            {
-                if (!dict.ContainsKey(x.Email!))
-                    dict.Add(x.UserName!, new(x, y));
-            });
-
-        userManagerMock.Setup(userManager => userManager.FindByNameAsync(It.IsAny<string>()))
-            .ReturnsAsync((string name) => dict[name].Item1);
-        
-        return userManagerMock;
-    }
-
-    public static IMapper CreateAutoMapper()
-    {
-        var configuration = new MapperConfiguration(configuration => configuration.AddProfile<MappingProfile>());
-
-        return configuration.CreateMapper();
-    }
 
     [Fact]
     public async Task Register_ValidUserData_ReturnsValidUser()

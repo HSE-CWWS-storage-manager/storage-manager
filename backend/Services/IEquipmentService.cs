@@ -1,11 +1,13 @@
 ﻿using common.Dtos;
 using common.Dtos.Request;
+using common.Dtos.Response;
 
 namespace backend.Services;
 
 public interface IEquipmentService
 {
-    EquipmentDto AddEquipment(AddEquipmentRequest request);
-    EquipmentDto UpdateEquipment(UpdateEquipmentRequest request);
+    Task<EquipmentDto> AddEquipment(AddEquipmentRequest request);
+    Task<EquipmentDto> UpdateEquipment(UpdateEquipmentRequest request);
+    EquipmentFindResponse FindEquipment(EquipmentFindRequest request);
     void DeleteEquipment(DeleteEquipmentRequest request);
 }

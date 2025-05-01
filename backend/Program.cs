@@ -5,11 +5,11 @@ using backend.Mapping;
 using backend.Mapping.Impl;
 using backend.Services;
 using backend.Services.Impl;
+using backend.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-
 using static backend.Utils.StringConstants;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,10 +55,17 @@ builder.Services.AddAuthentication(options =>
             }
         };
     });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(
+        EditorPolicy,
+        policy => policy.RequireRole(OperatorRole, AdminRole)
+    );
+});
 
 builder.Services.AddTransient<IUserMapper, UserMapper>();
 builder.Services.AddTransient<IAccountService, AccountService>();
+builder.Services.AddTransient<IEquipmentService, EquipmentService>();
 
 builder.Services.AddControllers(options => options.Filters.Add<HttpResponseExceptionFilter>());
 builder.Services.AddOpenApi();
@@ -70,13 +77,13 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    
+
     if (!await roleManager.RoleExistsAsync(AdminRole))
         await roleManager.CreateAsync(new IdentityRole(AdminRole));
-    
+
     if (!await roleManager.RoleExistsAsync(OperatorRole))
         await roleManager.CreateAsync(new IdentityRole(OperatorRole));
-    
+
     if (!await roleManager.RoleExistsAsync(UserRole))
         await roleManager.CreateAsync(new IdentityRole(UserRole));
 }

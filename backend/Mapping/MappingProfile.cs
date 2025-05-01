@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using backend.Models;
+using common.Dtos;
 using common.Dtos.Request;
 using Microsoft.AspNetCore.Identity;
 
@@ -8,6 +10,8 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
+        CreateMap<AddEquipmentRequest, Equipment>();
+        CreateMap<Equipment, EquipmentDto>();
         CreateMap<UserRegistrationRequest, IdentityUser>()
             .ForMember(u => u.UserName, opt => opt.MapFrom(x => x.Email));
     }
