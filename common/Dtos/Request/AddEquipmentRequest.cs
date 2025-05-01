@@ -1,5 +1,3 @@
 ﻿namespace common.Dtos.Request;
 
-public class AddEquipmentRequest
-{
-}
+public record AddEquipmentRequest(string Model, string Name, string SerialNumber, string InventoryNumber);

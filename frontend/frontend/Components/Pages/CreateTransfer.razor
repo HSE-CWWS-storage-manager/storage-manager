@@ -20,10 +20,10 @@
                 <th>Наименование</th>
                 <td><MudText>@(ActualItem?.Name ?? "Item not found")</MudText></td>
             </tr>
-            <tr>
-                <th>Количество</th>
-                <td><MudText>@(ActualItem?.InStock ?? -1)/@((ActualItem?.InStock ?? 0) + (ActualItem?.OnLoan ?? 0))</MudText></td>
-            </tr>
+            @* <tr> *@
+            @*     <th>Количество</th> *@
+            @*     <td><MudText>@(ActualItem?.InStock ?? -1)/@((ActualItem?.InStock ?? 0) + (ActualItem?.OnLoan ?? 0))</MudText></td> *@
+            @* </tr> *@
             <tr>
                 <th>Модель</th>
                 <td><MudText>@(ActualItem?.Model ?? "Item not found")</MudText></td>

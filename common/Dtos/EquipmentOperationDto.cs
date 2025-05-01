@@ -8,6 +8,7 @@ public enum EquipmentOperationType : ushort
 
 public record EquipmentOperationDto(
     Guid Id,
+    Guid WarehouseId,
     Guid EquipmentId,
     Guid InitiatorId,
     DateTime Date,

@@ -1,5 +1,3 @@
 ﻿namespace common.Dtos.Request;
 
-public class EquipmentRemainsRequest
-{
-}
+public record EquipmentRemainsRequest(Guid EquipmentId, Guid? WarehouseId);

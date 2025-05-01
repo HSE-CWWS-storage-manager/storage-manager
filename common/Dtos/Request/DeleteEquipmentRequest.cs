@@ -1,5 +1,3 @@
 ﻿namespace common.Dtos.Request;
 
-public class DeleteEquipmentRequest
-{
-}
+public record DeleteEquipmentRequest(Guid EquipmentId);

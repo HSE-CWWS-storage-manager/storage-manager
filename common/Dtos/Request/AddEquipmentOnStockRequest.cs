@@ -1,5 +1,3 @@
 ﻿namespace common.Dtos.Request;
 
-public class AddEquipmentOnStockRequest
-{
-}
+public record AddEquipmentOnStockRequest(Guid EquipmentId, Guid WarehouseId, int AddCount);
