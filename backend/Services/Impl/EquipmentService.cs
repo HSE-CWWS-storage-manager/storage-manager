@@ -62,7 +62,7 @@ public class EquipmentService(IMapper mapper, StorageManagerDbContext dbContext)
         );
     }
 
-    public async void DeleteEquipment(DeleteEquipmentRequest request)
+    public async Task DeleteEquipment(DeleteEquipmentRequest request)
     {
         try
         {

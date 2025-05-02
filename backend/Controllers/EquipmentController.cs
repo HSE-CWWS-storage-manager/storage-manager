@@ -29,4 +29,27 @@ public class EquipmentController(IEquipmentService equipmentService) : Controlle
 
         return Ok(equipmentService.FindEquipment(request));
     }
+    
+    [HttpPatch]
+    public async Task<IActionResult> Update(UpdateEquipmentRequest request)
+    {
+        if (!ModelState.IsValid)
+            return Problem();
+
+        return Ok(await equipmentService.UpdateEquipment(request));
+    }
+    
+    [HttpDelete]
+    public async Task<IActionResult> Delete(DeleteEquipmentRequest request)
+    {
+        if (!ModelState.IsValid)
+            return Problem();
+
+        await equipmentService.DeleteEquipment(request);
+        
+        return Ok(new
+        {
+            Status = "ok"
+        });
+    }
 }

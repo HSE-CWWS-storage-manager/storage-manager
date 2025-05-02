@@ -9,5 +9,5 @@ public interface IEquipmentService
     Task<EquipmentDto> AddEquipment(AddEquipmentRequest request);
     Task<EquipmentDto> UpdateEquipment(UpdateEquipmentRequest request);
     EquipmentFindResponse FindEquipment(EquipmentFindRequest request);
-    void DeleteEquipment(DeleteEquipmentRequest request);
+    Task DeleteEquipment(DeleteEquipmentRequest request);
 }
