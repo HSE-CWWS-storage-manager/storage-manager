@@ -77,10 +77,7 @@ public class EquipmentService(IMapper mapper, StorageManagerDbContext dbContext)
         }
         catch (Exception)
         {
-            throw new HttpResponseException((int)HttpStatusCode.InternalServerError, new
-            {
-                Message = "Unexpected error"
-            });
+            throw new HttpResponseException((int)HttpStatusCode.InternalServerError, new HttpErrorMessageResponse("Unexpected error", HttpStatusCode.InternalServerError));
         }
     }
 }

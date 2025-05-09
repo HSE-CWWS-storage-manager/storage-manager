@@ -2,11 +2,12 @@
 
 namespace common.Dtos.Request;
 
-public record AddEquipmentOnStockRequest(
+public record ChangeEquipmentUnitCountRequest(
     [Required(ErrorMessage = "EquipmentId is required")]
     Guid EquipmentId, 
     [Required(ErrorMessage = "WarehouseId is required")]
     Guid WarehouseId, 
-    [Required(ErrorMessage = "AddCount is required")]
-    int AddCount
+    [Range(0, Int32.MaxValue)]
+    [Required(ErrorMessage = "Count is required")]
+    int Count
 );

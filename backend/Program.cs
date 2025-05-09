@@ -66,6 +66,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddTransient<IUserMapper, UserMapper>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IEquipmentService, EquipmentService>();
+builder.Services.AddTransient<IWarehouseService, WarehouseService>();
 
 builder.Services.AddControllers(options => options.Filters.Add<HttpResponseExceptionFilter>());
 builder.Services.AddOpenApi();

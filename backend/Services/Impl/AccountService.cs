@@ -62,11 +62,7 @@ public class AccountService(IMapper mapper, IUserMapper userMapper, UserManager<
         var user = await userManager.FindByNameAsync(email);
 
         if (user == null || !await userManager.CheckPasswordAsync(user, password))
-            throw new HttpResponseException((int)HttpStatusCode.Forbidden, new
-            {
-                Error = "Email or password incorrect!",
-                Code = HttpStatusCode.Forbidden
-            });
+            throw new HttpResponseException((int)HttpStatusCode.Forbidden, new HttpErrorMessageResponse("Email or password incorrect!", HttpStatusCode.Forbidden));
 
         return user;
     }
