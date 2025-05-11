@@ -1,13 +1,15 @@
 ﻿using System.Data.Entity;
 using System.Net;
+using AutoMapper;
 using backend.Exceptions;
 using backend.Models;
+using common.Dtos;
 using common.Dtos.Request;
 using common.Dtos.Response;
 
 namespace backend.Services.Impl;
 
-public class WarehouseService(StorageManagerDbContext dbContext) : IWarehouseService
+public class WarehouseService(IMapper mapper, StorageManagerDbContext dbContext) : IWarehouseService
 {
     
     private const int PageSize = 10;
@@ -133,5 +135,57 @@ public class WarehouseService(StorageManagerDbContext dbContext) : IWarehouseSer
             (x, y) => x.OnLoan += y,
             x => x.OnLoan
         );
+    }
+
+    public async Task<WarehouseDto> CreateWarehouse(WarehouseCreateRequest request)
+    {
+        var warehouse = new Warehouse();
+        warehouse.Name = request.Name;
+        var entry = await dbContext.Warehouses.AddAsync(warehouse);
+        return mapper.Map<WarehouseDto>(entry.Entity);
+    }
+
+    public async Task<WarehouseDto> UpdateWarehouse(WarehouseUpdateRequest request)
+    {
+        var warehouse = await dbContext.Warehouses.FirstOrDefaultAsync(x => x.Id.Equals(request.WarehouseId));
+
+        if (warehouse == null)
+            throw new HttpResponseException(
+                (int) HttpStatusCode.NotFound,
+                new HttpErrorMessageResponse($"Warehouse with id {warehouse.Id} not found!", HttpStatusCode.NotFound)
+            );
+        
+        warehouse.Name = request.Name;
+        var entry = dbContext.Warehouses.Update(warehouse);
+        await dbContext.SaveChangesAsync();
+        
+        return mapper.Map<WarehouseDto>(entry.Entity);
+    }
+
+    public async Task<WarehouseDto> DeleteWarehouse(WarehouseDeleteRequest request)
+    {
+        var warehouse = await dbContext.Warehouses.FirstOrDefaultAsync(x => x.Id.Equals(request.WarehouseId));
+
+        if (warehouse != null)
+        {
+            dbContext.Warehouses.Remove(warehouse);
+            await dbContext.SaveChangesAsync();
+            return mapper.Map<WarehouseDto>(warehouse);
+        }
+
+        var empty = new Warehouse();
+        empty.Id = Guid.Empty;
+        empty.Name = "not found";
+        
+        return mapper.Map<WarehouseDto>(empty);
+    }
+
+    public List<WarehouseDto> ListWarehouses(WarehouseListRequest request)
+    {
+        return dbContext.Warehouses
+            .Skip((request.Page - 1) * PageSize)
+            .Take(PageSize)
+            .Select(x => mapper.Map<WarehouseDto>(x))
+            .ToList();
     }
 }

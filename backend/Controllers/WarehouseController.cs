@@ -41,4 +41,28 @@ public class WarehouseController(IWarehouseService service) : ControllerBase
     {
         return !ModelState.IsValid ? Problem() : Ok(await service.ExtractEquipmentFromLoan(request));
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> Create(WarehouseCreateRequest request)
+    {
+        return !ModelState.IsValid ? Problem() : Ok(await service.CreateWarehouse(request));
+    }
+    
+    [HttpPut]
+    public async Task<IActionResult> Update(WarehouseUpdateRequest request)
+    {
+        return !ModelState.IsValid ? Problem() : Ok(await service.UpdateWarehouse(request));
+    }
+    
+    [HttpDelete]
+    public async Task<IActionResult> Delete(WarehouseDeleteRequest request)
+    {
+        return !ModelState.IsValid ? Problem() : Ok(await service.DeleteWarehouse(request));
+    }
+    
+    [HttpGet]
+    public IActionResult List(WarehouseListRequest request)
+    {
+        return !ModelState.IsValid ? Problem() : Ok(service.ListWarehouses(request));
+    }
 }
