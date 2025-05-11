@@ -61,7 +61,7 @@ public class WarehouseController(IWarehouseService service) : ControllerBase
     }
     
     [HttpGet]
-    public IActionResult List(WarehouseListRequest request)
+    public IActionResult List([FromQuery] WarehouseListRequest request)
     {
         return !ModelState.IsValid ? Problem() : Ok(service.ListWarehouses(request));
     }
