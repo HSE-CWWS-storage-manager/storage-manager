@@ -2,4 +2,4 @@
 
 namespace common.Dtos.Response;
 
-public record HttpErrorMessageResponse(string Error, HttpStatusCode Code);
+public record HttpErrorMessageResponse(string Error);

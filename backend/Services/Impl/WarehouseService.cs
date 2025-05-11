@@ -59,7 +59,7 @@ public class WarehouseService(IMapper mapper, StorageManagerDbContext dbContext)
         if (equipment == null)
             throw new HttpResponseException(
                 (int)HttpStatusCode.NotFound,
-                new HttpErrorMessageResponse($"Equipment with id {equipmentId} not found.", HttpStatusCode.NotFound)
+                new HttpErrorMessageResponse($"Equipment with id {equipmentId} not found.")
             );
         
         var warehouse = await dbContext.Warehouses
@@ -68,7 +68,7 @@ public class WarehouseService(IMapper mapper, StorageManagerDbContext dbContext)
         if (warehouse == null)
             throw new HttpResponseException(
                 (int)HttpStatusCode.NotFound,
-                new HttpErrorMessageResponse($"Warehouse with id {warehouseId} not found.", HttpStatusCode.NotFound)
+                new HttpErrorMessageResponse($"Warehouse with id {warehouseId} not found.")
             );
         
         var remain = await dbContext.EquipmentRemains
@@ -79,7 +79,7 @@ public class WarehouseService(IMapper mapper, StorageManagerDbContext dbContext)
         {
             throw new HttpResponseException(
                 (int) HttpStatusCode.BadRequest,
-                new HttpErrorMessageResponse("Remains count cannot be less than zero.", HttpStatusCode.BadRequest)
+                new HttpErrorMessageResponse("Remains count cannot be less than zero.")
             );
         }
 
@@ -152,7 +152,7 @@ public class WarehouseService(IMapper mapper, StorageManagerDbContext dbContext)
         if (warehouse == null)
             throw new HttpResponseException(
                 (int) HttpStatusCode.NotFound,
-                new HttpErrorMessageResponse($"Warehouse with id {warehouse.Id} not found!", HttpStatusCode.NotFound)
+                new HttpErrorMessageResponse($"Warehouse with id {request.WarehouseId} not found!")
             );
         
         warehouse.Name = request.Name;
