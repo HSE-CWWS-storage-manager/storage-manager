@@ -5,9 +5,9 @@
 <PageTitle>Вход</PageTitle>
 
 <MudGrid Justify="Justify.Center">
-    <PageHeader Backlink="/auth">Вход</PageHeader>
+    <PageHeader Backlink="/auth" HelpFilename="vkhod_v_sistemu.html">Вход</PageHeader>
     <MudItem xs="12">
-        <MudForm>
+        <MudForm action="/home">
             <MudTextField
                 T="string"
                 @bind-Text="Mail"
