@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace backend.Models;
 
+[Microsoft.EntityFrameworkCore.Index(nameof(IssueDate))]
 public class EquipmentTransfer
 {
     [Key]

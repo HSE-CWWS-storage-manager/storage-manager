@@ -67,6 +67,8 @@ builder.Services.AddTransient<IUserMapper, UserMapper>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IEquipmentService, EquipmentService>();
 builder.Services.AddTransient<IWarehouseService, WarehouseService>();
+builder.Services.AddTransient<IStudentService, StudentService>();
+builder.Services.AddTransient<IEquipmentOperationService, EquipmentOperationService>();
 
 builder.Services.AddControllers(options => options.Filters.Add<HttpResponseExceptionFilter>());
 builder.Services.AddOpenApi();

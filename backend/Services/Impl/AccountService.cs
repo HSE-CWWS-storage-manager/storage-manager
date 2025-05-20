@@ -57,6 +57,17 @@ public class AccountService(IMapper mapper, IUserMapper userMapper, UserManager<
         return new TokenResponse(encodedJwt);
     }
 
+    public async Task<IdentityUser> GetUserFromPrincipal(ClaimsPrincipal principal)
+    {
+        return await userManager.FindByIdAsync(userManager.GetUserId(principal) ?? throw new HttpResponseException(
+            (int) HttpStatusCode.NotFound,
+            "Principal don't have user id"
+        )) ?? throw new HttpResponseException(
+            (int) HttpStatusCode.NotFound,
+            "User not found"
+        );
+    }
+
     private async Task<IdentityUser> GetUser(string email, string password)
     {
         var user = await userManager.FindByNameAsync(email);

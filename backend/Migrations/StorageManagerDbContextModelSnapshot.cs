@@ -303,6 +303,8 @@ namespace backend.Migrations
 
                     b.HasIndex("InitiatorId");
 
+                    b.HasIndex("IssueDate");
+
                     b.HasIndex("RecipientId");
 
                     b.ToTable("EquipmentTransfers");
@@ -331,6 +333,8 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Date");
+
                     b.HasIndex("EquipmentId");
 
                     b.HasIndex("FromId");
@@ -355,6 +359,8 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name", "Group");
 
                     b.ToTable("Students");
                 });

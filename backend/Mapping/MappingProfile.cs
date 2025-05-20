@@ -13,6 +13,7 @@ public class MappingProfile : Profile
         CreateMap<AddEquipmentRequest, Equipment>();
         CreateMap<Equipment, EquipmentDto>();
         CreateMap<Warehouse, WarehouseDto>();
+        CreateMap<Student, StudentDto>();
         CreateMap<UserRegistrationRequest, IdentityUser>()
             .ForMember(u => u.UserName, opt => opt.MapFrom(x => x.Email));
     }

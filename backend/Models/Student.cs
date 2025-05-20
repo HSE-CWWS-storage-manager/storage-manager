@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models;
 
+[Microsoft.EntityFrameworkCore.Index(nameof(Name), nameof(Group))]
 public class Student
 {
     [Key]

@@ -1,4 +1,5 @@
-﻿using common.Dtos;
+﻿using System.Security.Claims;
+using common.Dtos;
 using common.Dtos.Request;
 using common.Dtos.Response;
 using Microsoft.AspNetCore.Identity;
@@ -9,4 +10,5 @@ public interface IAccountService
 {
     Task<Tuple<UserDto?, IdentityResult>> Create(UserRegistrationRequest request);
     Task<TokenResponse> Login(UserAuthenticationRequest request);
+    Task<IdentityUser> GetUserFromPrincipal(ClaimsPrincipal principal);
 }
