@@ -20,7 +20,7 @@ public class EquipmentOperationController(IAccountService accountService, IEquip
             Ok(await equipmentOperationService.Transfer(await accountService.GetUserFromPrincipal(User), request));
     }
     
-    [HttpDelete]
+    [HttpPost]
     public async Task<IActionResult> WriteOff(EquipmentWriteOffRequest request)
     {
         return !ModelState.IsValid ? 
