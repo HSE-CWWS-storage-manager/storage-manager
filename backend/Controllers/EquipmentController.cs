@@ -39,7 +39,7 @@ public class EquipmentController(IEquipmentService equipmentService) : Controlle
         return Ok(await equipmentService.UpdateEquipment(request));
     }
     
-    [HttpPost]
+    [HttpPost("Delete")]
     public async Task<IActionResult> Delete(DeleteEquipmentRequest request)
     {
         if (!ModelState.IsValid)
