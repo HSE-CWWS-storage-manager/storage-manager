@@ -18,6 +18,7 @@ public class StudentService(IMapper mapper, StorageManagerDbContext dbContext) :
         student.Name = request.Name;
         student.Group = request.Group;
         var entry = await dbContext.Students.AddAsync(student);
+        await dbContext.SaveChangesAsync();
         return mapper.Map<StudentDto>(entry.Entity);
     }
 

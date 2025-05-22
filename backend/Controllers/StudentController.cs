@@ -30,8 +30,8 @@ public class StudentController(IStudentService studentService) : ControllerBase
         return !ModelState.IsValid ? Problem() : Ok(await studentService.Update(request));
     }
     
-    [HttpPost("Delete")]
-    public async Task<IActionResult> Delete(StudentDeleteRequest request)
+    [HttpDelete]
+    public async Task<IActionResult> Delete([FromQuery] StudentDeleteRequest request)
     {
         return !ModelState.IsValid ? Problem() : Ok(await studentService.Delete(request));
     }

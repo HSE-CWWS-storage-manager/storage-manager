@@ -16,7 +16,7 @@ public class EquipmentCardController(IEquipmentCardService cardService) : Contro
     private const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
     [HttpGet]
-    public IActionResult Generate([FromQuery] EquipmentFindRequest request)
+    public IActionResult Generate([FromQuery] EquipmentFindRequest request, [FromQuery] Guid studentId)
     {
         if (!ModelState.IsValid)
             return Problem();
@@ -28,6 +28,6 @@ public class EquipmentCardController(IEquipmentCardService cardService) : Contro
         
         Response.Headers.Append(HeaderNames.ContentDisposition, cd.ToString());
 
-        return File(cardService.GenerateEquipmentCard(request), ExcelContentType);
+        return File(cardService.GenerateEquipmentCard(request, studentId), ExcelContentType);
     }
 }

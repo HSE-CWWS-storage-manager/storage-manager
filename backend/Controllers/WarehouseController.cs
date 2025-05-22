@@ -30,8 +30,8 @@ public class WarehouseController(IWarehouseService service) : ControllerBase
         return !ModelState.IsValid ? Problem() : Ok(await service.UpdateWarehouse(request));
     }
     
-    [HttpPost]
-    public async Task<IActionResult> Delete(WarehouseDeleteRequest request)
+    [HttpDelete]
+    public async Task<IActionResult> Delete([FromQuery] WarehouseDeleteRequest request)
     {
         return !ModelState.IsValid ? Problem() : Ok(await service.DeleteWarehouse(request));
     }
