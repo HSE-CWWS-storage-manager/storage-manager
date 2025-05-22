@@ -4,10 +4,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
 
+/// <summary>
+/// Контроллер для работы с аккаунтами пользователей
+/// </summary>
+/// <param name="accountService">Сервис для взаимодействия с аккаунтами пользователей</param>
 [Route("[controller]")]
 [ApiController]
 public class AccountController(IAccountService accountService) : ControllerBase
 {
+    
+    /// <summary>
+    /// Регистрация нового пользователя
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns>Информация о новом пользователе</returns>
+    /// <response code="200"></response>
     [HttpPost("Register")]
     public async Task<IActionResult> Register(UserRegistrationRequest request)
     {

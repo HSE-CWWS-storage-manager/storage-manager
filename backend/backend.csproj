@@ -6,6 +6,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <RootNamespace>backend</RootNamespace>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,6 +23,7 @@
         <PackageReference Include="NanoXLSX" Version="2.6.3" />
         <PackageReference Include="Npgsql" Version="9.0.3"/>
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
     </ItemGroup>
 
     <ItemGroup>

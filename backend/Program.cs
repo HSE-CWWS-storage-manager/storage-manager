@@ -1,3 +1,4 @@
+using System.Reflection;
 using backend;
 using backend.Auth;
 using backend.Filters;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using static backend.Utils.StringConstants;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -74,6 +76,20 @@ builder.Services.AddTransient<IEquipmentCardService, EquipmentCardService>();
 builder.Services.AddControllers(options => options.Filters.Add<HttpResponseExceptionFilter>());
 builder.Services.AddOpenApi();
 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Storage Manager",
+        Version = "v1",
+        Description = "ИС для учета ТМЦ ЦРС НИУ ВШЭ - Пермь"
+    });
+    
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
+});
+
 builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
@@ -96,6 +112,12 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        c.RoutePrefix = string.Empty;
+    });
 }
 else
 {
