@@ -7,6 +7,10 @@ using Microsoft.Net.Http.Headers;
 
 namespace backend.Controllers;
 
+/// <summary>
+/// Контроллер для генерации карточек оборудования
+/// </summary>
+/// <param name="cardService"></param>
 [Route("[controller]")]
 [ApiController]
 [Authorize(Policy = StringConstants.EditorPolicy)]
@@ -15,7 +19,14 @@ public class EquipmentCardController(IEquipmentCardService cardService) : Contro
 
     private const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
+    /// <summary>
+    /// Сгенерировать карточку для заданного оборудования
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="studentId"></param>
+    /// <returns></returns>
     [HttpGet]
+    [Produces(ExcelContentType)]
     public IActionResult Generate([FromQuery] EquipmentFindRequest request, [FromQuery] Guid studentId)
     {
         if (!ModelState.IsValid)
