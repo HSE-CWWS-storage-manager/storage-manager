@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using backend.Mapping;
+using backend.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Moq;
 
 namespace backend.Tests;
@@ -36,5 +39,12 @@ public static class TestUtils
         var configuration = new MapperConfiguration(configuration => configuration.AddProfile<MappingProfile>());
 
         return configuration.CreateMapper();
+    }
+
+    public static StorageManagerDbContext CreateContext()
+    {
+        return new StorageManagerDbContext(new DbContextOptionsBuilder<StorageManagerDbContext>()
+            .UseInMemoryDatabase(databaseName: "StorageManagerDatabase")
+            .Options);
     }
 }

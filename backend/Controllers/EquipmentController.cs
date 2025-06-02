@@ -24,6 +24,7 @@ public class EquipmentController(IEquipmentService equipmentService) : Controlle
     /// <param name="request"></param>
     /// <returns></returns>
     /// <response code="200">Возвращает информацию о новом виде оборудования</response>
+    /// <response code="400">Возвращает детализацию ошибки в запросе</response>
     [HttpPost]
     [ProducesResponseType(typeof(EquipmentDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> Add(AddEquipmentRequest request)

@@ -25,9 +25,9 @@ public class EquipmentService(IMapper mapper, StorageManagerDbContext dbContext)
     {
         var equipment = await dbContext.Equipments.FirstAsync(equipment => equipment.Id.Equals(request.EquipmentId));
         equipment.Model = request.Model ?? equipment.Model;
-        equipment.Model = request.SerialNumber ?? equipment.SerialNumber;
-        equipment.Model = request.InventoryNumber ?? equipment.InventoryNumber;
-        equipment.Model = request.Name ?? equipment.Name;
+        equipment.SerialNumber = request.SerialNumber ?? equipment.SerialNumber;
+        equipment.InventoryNumber = request.InventoryNumber ?? equipment.InventoryNumber;
+        equipment.Name = request.Name ?? equipment.Name;
         var entry = dbContext.Equipments.Update(equipment);
         await dbContext.SaveChangesAsync();
         return mapper.Map<EquipmentDto>(entry.Entity);

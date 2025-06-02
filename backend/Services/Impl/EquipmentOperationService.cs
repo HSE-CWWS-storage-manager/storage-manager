@@ -152,7 +152,9 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
 
         var listWriteOffs = dbContext.EquipmentWriteOffs
             .Where(x => (request.StartDate == null || x.Date >= request.StartDate) &&
-                        (request.EndDate == null || x.Date <= request.EndDate))
+                        (request.EndDate == null || x.Date <= request.EndDate) &&
+                        (request.EquipmentId == null || x.Equipment.Id.Equals(request.EquipmentId)) &&
+                        (request.WarehouseId == null || x.From.Id.Equals(request.WarehouseId)))
             .OrderByDescending(x => x.Date)
             .Skip((request.Page - 1) * PageSize)
             .Take(PageSize)
