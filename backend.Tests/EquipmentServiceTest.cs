@@ -7,8 +7,8 @@ namespace backend.Tests;
 
 public class EquipmentServiceTest : IDisposable, IAsyncDisposable
 {
-    private StorageManagerDbContext _context;
-    private IEquipmentService _service;
+    private readonly StorageManagerDbContext _context;
+    private readonly IEquipmentService _service;
 
     public EquipmentServiceTest()
     {
@@ -59,6 +59,17 @@ public class EquipmentServiceTest : IDisposable, IAsyncDisposable
         Assert.Equal("S", first.Model);
         Assert.Equal("R", first.SerialNumber);
         Assert.Equal("P", first.InventoryNumber);
+    }
+    
+    [Fact]
+    public async Task DeleteEquipment_ValidData_ReturnsAllNeededData()
+    {
+        var newEquipment = await _service.AddEquipment(new AddEquipmentRequest("S", "O", "R", "P"));
+
+        var request = new DeleteEquipmentRequest(newEquipment.Id);
+        await _service.DeleteEquipment(request);
+        
+        Assert.Empty(_service.FindEquipment(new EquipmentFindRequest(newEquipment.Id)).Equipments);
     }
 
     public void Dispose()
