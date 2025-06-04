@@ -1,5 +1,0 @@
-DR_EXPLAIN = DR_EXPLAIN || {};
-DR_EXPLAIN.searchIndex = DR_EXPLAIN.searchIndex || {};
-DR_EXPLAIN.searchIndex["\u0053"] = [
-	{ "s": "SAFARI", "p": [11] }
-];

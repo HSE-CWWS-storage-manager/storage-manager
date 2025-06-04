@@ -1,5 +1,8 @@
 using frontend.Components;
+using frontend.Providers;
+using frontend.Services;
 using MudBlazor.Services;
+using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +12,16 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddMudServices();
+
+builder.Services.AddHttpClient("API", client =>
+{
+    client.BaseAddress = new Uri("https://storage-manager-backend.fiwka.xyz/");
+});
+
+builder.Services.AddScoped<AuthenticationStateProvider, AuthProvider>();
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddAuthorizationCore();
+builder.Services.AddCascadingAuthenticationState();
 
 var app = builder.Build();
 

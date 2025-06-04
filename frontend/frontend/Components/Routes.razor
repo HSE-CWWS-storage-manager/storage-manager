@@ -1,6 +1,27 @@
-﻿<Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(Client._Imports).Assembly }">
-    <Found Context="routeData">
-        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)"/>
-        <FocusOnNavigate RouteData="routeData" Selector="h1"/>
-    </Found>
-</Router>
+﻿@using frontend.Components.Layout
+@using Microsoft.AspNetCore.Components.Authorization
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(Client._Imports).Assembly }">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <!-- Перенаправление, если пользователь не авторизован -->
+                    <RedirectToLogin />
+                </NotAuthorized>
+                <Authorizing>
+                    <!-- Показывается во время проверки прав -->
+                    <div class="text-center my-4">
+                        <p>Загрузка... Проверяем права доступа</p>
+                    </div>
+                </Authorizing>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <!-- Страница 404 -->
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p class="text-danger">Страница не найдена.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
