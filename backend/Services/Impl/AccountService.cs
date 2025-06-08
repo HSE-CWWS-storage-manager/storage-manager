@@ -9,6 +9,7 @@ using common.Dtos;
 using common.Dtos.Request;
 using common.Dtos.Response;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 using static backend.Utils.StringConstants;
@@ -17,12 +18,16 @@ namespace backend.Services.Impl;
 
 public class AccountService(IMapper mapper, IUserMapper userMapper, UserManager<IdentityUser> userManager) : IAccountService
 {
+    
+    private const int PageSize = 10;
+    
     public async Task<Tuple<UserDto?, IdentityResult>> Create(UserRegistrationRequest request)
     {
         var user = mapper.Map<IdentityUser>(request);
         var result = await userManager.CreateAsync(user, request.Password);
-
-        await userManager.AddToRoleAsync(user, UserRole);
+        
+        if (result.Succeeded) 
+            await userManager.AddToRoleAsync(user, UserRole);
 
         return new(userMapper.ToUserDto(user, [UserRole]), result);
     }
@@ -66,6 +71,48 @@ public class AccountService(IMapper mapper, IUserMapper userMapper, UserManager<
             (int) HttpStatusCode.NotFound,
             "User not found"
         );
+    }
+
+    public async Task<UserDto> GetUserDtoFromPrincipal(ClaimsPrincipal principal)
+    {
+        var user = await GetUserFromPrincipal(principal);
+        var roles = await userManager.GetRolesAsync(user);
+
+        return userMapper.ToUserDto(user, roles);
+    }
+
+    public async Task<UserListResponse> GetUserList(UserListRequest request)
+    {
+        var users = userManager.Users
+            .Skip((request.Page - 1) * PageSize)
+            .Take(PageSize)
+            .ToList();
+        var dtos = new List<UserDto>();
+
+        foreach (var user in users)
+        {
+            dtos.Add(userMapper.ToUserDto(user, await userManager.GetRolesAsync(user)));
+        }
+        
+        return new UserListResponse(dtos);
+    }
+
+    public async Task<UserDto> ModifyRole(UserRoleModifyRequest request)
+    {
+        var user = await userManager.FindByIdAsync(request.UserId.ToString());
+
+        if (user == null)
+            throw new HttpResponseException(
+                (int)HttpStatusCode.NotFound,
+                new HttpErrorMessageResponse($"User with id {request.UserId} not found!")
+            );
+
+        if (request.Operation == UserRoleModifyOperation.Add)
+            await userManager.AddToRoleAsync(user, request.Role);
+        else
+            await userManager.RemoveFromRoleAsync(user, request.Role);
+
+        return userMapper.ToUserDto(user, await userManager.GetRolesAsync(user));
     }
 
     private async Task<IdentityUser> GetUser(string email, string password)

@@ -7,7 +7,7 @@ public class AuthOptions
 {
     public const string Issuer = "StorageManagerServer";
     public const string Audience = "StorageManagerClient";
-    public const int Lifetime = 5;
+    public const int Lifetime = 1440;
 
     private static readonly string? Key = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ??
                                           "mysupersecret_secretkey!123secretTTT";

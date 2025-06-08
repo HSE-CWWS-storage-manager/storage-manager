@@ -1,8 +1,10 @@
 ﻿using System.Net;
 using backend.Services;
+using backend.Utils;
 using common.Dtos;
 using common.Dtos.Request;
 using common.Dtos.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
@@ -66,5 +68,56 @@ public class AccountController(IAccountService accountService) : ControllerBase
             return Problem();
 
         return Ok(await accountService.Login(request));
+    }
+    
+    /// <summary>
+    /// Информация о текущем пользователе
+    /// </summary>
+    /// <returns></returns>
+    [Authorize]
+    [HttpGet("Me")]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(HttpErrorMessageResponse), StatusCodes.Status403Forbidden)]
+    public async Task<IActionResult> MyRoles()
+    {
+        if (!ModelState.IsValid)
+            return Problem();
+
+        return Ok(await accountService.GetUserDtoFromPrincipal(User));
+    }
+    
+    /// <summary>
+    /// Получить список пользователей
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [Authorize(Roles = StringConstants.AdminRole)]
+    [HttpGet("GetUsers")]
+    [ProducesResponseType(typeof(UserListResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(HttpErrorMessageResponse), StatusCodes.Status403Forbidden)]
+    public async Task<IActionResult> GetUsers([FromQuery] UserListRequest request)
+    {
+        if (!ModelState.IsValid)
+            return Problem();
+
+        return Ok(await accountService.GetUserList(request));
+    }
+    
+    /// <summary>
+    /// Модифицировать роли пользователя
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [Authorize(Roles = StringConstants.AdminRole)]
+    [HttpPatch("ModifyRole")]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(HttpErrorMessageResponse), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(HttpErrorMessageResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> ModifyRole(UserRoleModifyRequest request)
+    {
+        if (!ModelState.IsValid)
+            return Problem();
+
+        return Ok(await accountService.ModifyRole(request));
     }
 }

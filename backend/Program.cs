@@ -22,6 +22,17 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<StorageManagerDbContext>()
     .AddDefaultTokenProviders();
 
+var storageManagerOrigins = "_storageManagerOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: storageManagerOrigins,
+        policy =>
+        {
+            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        });
+});
+
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -125,6 +136,8 @@ else
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(storageManagerOrigins);
 
 app.UseAuthentication();
 app.UseAuthorization();
