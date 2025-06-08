@@ -3,7 +3,7 @@
 <PageTitle>Оборудование</PageTitle>
 
 <MudGrid Justify="Justify.Center">
-    <PageHeader Backlink="/home" HelpFilename="prosmotr_oborudovaniya.html">Оборудование</PageHeader>
+    <PageHeader Backlink="/home">Оборудование</PageHeader>
     <MudItem xs="12">
         <MudButton FullWidth="true" Variant="Variant.Filled" Color="Color.Primary" Href="/equipment/create">Создать новый</MudButton>
     </MudItem>
@@ -14,12 +14,6 @@
         <MudDataGrid Items="EquipmentData">
             <Columns>
                 <PropertyColumn Property="item => item.Name" Title="Наименование"/>
-                @* <PropertyColumn Property="item => item.Id" Title="Guid"/> *@
-                @* <TemplateColumn Title="Количество"> *@
-                @*     <CellTemplate> *@
-                @*         @(context.Item?.InStock ?? -1)/@((context.Item?.InStock ?? 0) + (context.Item?.OnLoan ?? 0)) *@
-                @*     </CellTemplate> *@
-                @* </TemplateColumn> *@
                 <TemplateColumn>
                     <CellTemplate>
                         <MudButton Href="@($"/equipment/{context.Item.Id}")">Перейти</MudButton>

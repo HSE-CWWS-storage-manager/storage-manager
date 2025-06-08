@@ -14,14 +14,13 @@ public class AuthService(HttpClient http, AuthenticationStateProvider authStateP
     {
         var response = await http.PostAsJsonAsync("https://storage-manager-backend.fiwka.xyz/Account/Login", request);
 
-        if (response.IsSuccessStatusCode)
-        {
-            response.EnsureSuccessStatusCode();
-            var token = await response.Content.ReadFromJsonAsync<TokenResponse>();
-            return Result<TokenResponse>.Success(token);
-        }
+        if (!response.IsSuccessStatusCode) return Result<TokenResponse>.Failure("Failed to login");
+        
+        response.EnsureSuccessStatusCode();
+        var token = await response.Content.ReadFromJsonAsync<TokenResponse>();
+            
+        return token is null ? Result<TokenResponse>.Failure("Invalid JSON") : Result<TokenResponse>.Success(token);
 
-        return Result<TokenResponse>.Failure("Failed to login");
     }
 
     public async Task LogoutAsync()

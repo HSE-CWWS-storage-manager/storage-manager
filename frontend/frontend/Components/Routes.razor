@@ -6,11 +6,9 @@
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
-                    <!-- Перенаправление, если пользователь не авторизован -->
                     <RedirectToLogin />
                 </NotAuthorized>
                 <Authorizing>
-                    <!-- Показывается во время проверки прав -->
                     <div class="text-center my-4">
                         <p>Загрузка... Проверяем права доступа</p>
                     </div>
@@ -18,7 +16,6 @@
             </AuthorizeRouteView>
         </Found>
         <NotFound>
-            <!-- Страница 404 -->
             <LayoutView Layout="@typeof(MainLayout)">
                 <p class="text-danger">Страница не найдена.</p>
             </LayoutView>

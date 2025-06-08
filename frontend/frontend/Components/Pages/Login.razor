@@ -5,13 +5,12 @@
 @inject AuthService AuthService
 @inject NavigationManager NavManager
 @attribute [Authorize]
-@* @rendermode InteractiveAuto *@
 @rendermode InteractiveServer
 
 <PageTitle>Вход</PageTitle>
 
 <MudGrid Justify="Justify.Center">
-    <PageHeader Backlink="/auth" HelpFilename="vkhod_v_sistemu.html">Вход</PageHeader>
+    <PageHeader Backlink="/auth">Вход</PageHeader>
     <MudItem xs="12">
         @* <MudForm action="/home"> *@
         @*     <MudTextField *@
