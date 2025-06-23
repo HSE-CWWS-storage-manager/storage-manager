@@ -142,6 +142,7 @@ public class WarehouseService(IMapper mapper, StorageManagerDbContext dbContext)
         var warehouse = new Warehouse();
         warehouse.Name = request.Name;
         var entry = await dbContext.Warehouses.AddAsync(warehouse);
+        await dbContext.SaveChangesAsync();
         return mapper.Map<WarehouseDto>(entry.Entity);
     }
 
