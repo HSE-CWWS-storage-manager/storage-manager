@@ -24,10 +24,10 @@ public class StudentService(IMapper mapper, StorageManagerDbContext dbContext) :
 
     public async Task<StudentDto> Find(StudentFindRequest request)
     {
-        var studentDto = await dbContext.Students
+        var studentDto = dbContext.Students
             .Where(x => x.Name.Equals(request.Name) && (request.Group == null || x.Group.Equals(request.Group)))
             .Select(x => mapper.Map<StudentDto>(x))
-            .FirstOrDefaultAsync();
+            .FirstOrDefault();
 
         if (studentDto == null)
             throw new HttpResponseException(
@@ -40,9 +40,8 @@ public class StudentService(IMapper mapper, StorageManagerDbContext dbContext) :
 
     public async Task<StudentDto> Update(StudentUpdateRequest request)
     {
-        var student = await dbContext.Students
-            .Where(x => x.Id.Equals(request.StudentId))
-            .FirstOrDefaultAsync();
+        var student = dbContext.Students
+            .FirstOrDefault(x => x.Id.Equals(request.StudentId));
         
         if (student == null)
             throw new HttpResponseException(
@@ -61,9 +60,8 @@ public class StudentService(IMapper mapper, StorageManagerDbContext dbContext) :
 
     public async Task<StudentDto> Delete(StudentDeleteRequest request)
     {
-        var student = await dbContext.Students
-            .Where(x => x.Id.Equals(request.StudentId))
-            .FirstOrDefaultAsync();
+        var student = dbContext.Students
+            .FirstOrDefault(x => x.Id.Equals(request.StudentId));
         
         if (student == null)
             throw new HttpResponseException(

@@ -66,8 +66,8 @@ public class EquipmentService(IMapper mapper, StorageManagerDbContext dbContext)
     {
         try
         {
-            var equipment = await dbContext.Equipments
-                .FirstOrDefaultAsync(equipment => equipment.Id.Equals(request.EquipmentId));
+            var equipment = dbContext.Equipments
+                .FirstOrDefault(equipment => equipment.Id.Equals(request.EquipmentId));
 
             if (equipment != null)
             {

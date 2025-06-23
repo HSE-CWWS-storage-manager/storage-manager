@@ -53,8 +53,8 @@ public class WarehouseService(IMapper mapper, StorageManagerDbContext dbContext)
     private async Task<EquipmentRemainsResponse> UpdateEquipmentUnitCount(
         Guid equipmentId, Guid warehouseId, int count, Action<EquipmentRemain, int> setter, Func<EquipmentRemain, int> getter)
     {
-        var equipment = await dbContext.Equipments
-            .FirstOrDefaultAsync(x => x.Id.Equals(equipmentId));
+        var equipment = dbContext.Equipments
+            .FirstOrDefault(x => x.Id.Equals(equipmentId));
 
         if (equipment == null)
             throw new HttpResponseException(
@@ -62,8 +62,8 @@ public class WarehouseService(IMapper mapper, StorageManagerDbContext dbContext)
                 new HttpErrorMessageResponse($"Equipment with id {equipmentId} not found.")
             );
         
-        var warehouse = await dbContext.Warehouses
-            .FirstOrDefaultAsync(x => x.Id.Equals(warehouseId));
+        var warehouse = dbContext.Warehouses
+            .FirstOrDefault(x => x.Id.Equals(warehouseId));
         
         if (warehouse == null)
             throw new HttpResponseException(
@@ -71,8 +71,8 @@ public class WarehouseService(IMapper mapper, StorageManagerDbContext dbContext)
                 new HttpErrorMessageResponse($"Warehouse with id {warehouseId} not found.")
             );
         
-        var remain = await dbContext.EquipmentRemains
-                         .FirstOrDefaultAsync(x => x.Equipment.Id.Equals(equipmentId) && x.Warehouse.Id.Equals(warehouseId)) ?? 
+        var remain = dbContext.EquipmentRemains
+                         .FirstOrDefault(x => x.Equipment.Id.Equals(equipmentId) && x.Warehouse.Id.Equals(warehouseId)) ?? 
                      CreateEmptyRemain(equipment, warehouse);
 
         if (getter(remain) + count < 0)
@@ -148,7 +148,7 @@ public class WarehouseService(IMapper mapper, StorageManagerDbContext dbContext)
 
     public async Task<WarehouseDto> UpdateWarehouse(WarehouseUpdateRequest request)
     {
-        var warehouse = await dbContext.Warehouses.FirstOrDefaultAsync(x => x.Id.Equals(request.WarehouseId));
+        var warehouse = dbContext.Warehouses.FirstOrDefault(x => x.Id.Equals(request.WarehouseId));
 
         if (warehouse == null)
             throw new HttpResponseException(
@@ -165,7 +165,7 @@ public class WarehouseService(IMapper mapper, StorageManagerDbContext dbContext)
 
     public async Task<WarehouseDto> DeleteWarehouse(WarehouseDeleteRequest request)
     {
-        var warehouse = await dbContext.Warehouses.FirstOrDefaultAsync(x => x.Id.Equals(request.WarehouseId));
+        var warehouse = dbContext.Warehouses.FirstOrDefault(x => x.Id.Equals(request.WarehouseId));
 
         if (warehouse != null)
         {

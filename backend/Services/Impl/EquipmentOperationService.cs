@@ -19,8 +19,8 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
         var equipmentId = request.EquipmentId;
         var recipientId = request.RecipientId;
         
-        var equipment = await dbContext.Equipments
-            .FirstOrDefaultAsync(x => x.Id.Equals(equipmentId));
+        var equipment = dbContext.Equipments
+            .FirstOrDefault(x => x.Id.Equals(equipmentId));
 
         if (equipment == null)
             throw new HttpResponseException(
@@ -28,8 +28,8 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
                 new HttpErrorMessageResponse($"Equipment with id {equipmentId} not found.")
             );
         
-        var warehouse = await dbContext.Warehouses
-            .FirstOrDefaultAsync(x => x.Id.Equals(warehouseId));
+        var warehouse = dbContext.Warehouses
+            .FirstOrDefault(x => x.Id.Equals(warehouseId));
         
         if (warehouse == null)
             throw new HttpResponseException(
@@ -37,8 +37,8 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
                 new HttpErrorMessageResponse($"Warehouse with id {warehouseId} not found.")
             );
         
-        var student = await dbContext.Students
-            .FirstOrDefaultAsync(x => x.Id.Equals(recipientId));
+        var student = dbContext.Students
+            .FirstOrDefault(x => x.Id.Equals(recipientId));
         
         if (student == null)
             throw new HttpResponseException(
@@ -82,8 +82,8 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
         var warehouseId = request.WarehouseId;
         var equipmentId = request.EquipmentId;
         
-        var equipment = await dbContext.Equipments
-            .FirstOrDefaultAsync(x => x.Id.Equals(equipmentId));
+        var equipment = dbContext.Equipments
+            .FirstOrDefault(x => x.Id.Equals(equipmentId));
 
         if (equipment == null)
             throw new HttpResponseException(
@@ -91,8 +91,8 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
                 new HttpErrorMessageResponse($"Equipment with id {equipmentId} not found.")
             );
         
-        var warehouse = await dbContext.Warehouses
-            .FirstOrDefaultAsync(x => x.Id.Equals(warehouseId));
+        var warehouse = dbContext.Warehouses
+            .FirstOrDefault(x => x.Id.Equals(warehouseId));
         
         if (warehouse == null)
             throw new HttpResponseException(
