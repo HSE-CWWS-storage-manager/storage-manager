@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend;
@@ -11,9 +12,11 @@ using backend;
 namespace backend.Migrations
 {
     [DbContext(typeof(StorageManagerDbContext))]
-    partial class StorageManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250623171938_NullableInEquipment")]
+    partial class NullableInEquipment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend;
@@ -11,9 +12,11 @@ using backend;
 namespace backend.Migrations
 {
     [DbContext(typeof(StorageManagerDbContext))]
-    partial class StorageManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250515163320_MoreIndexes")]
+    partial class MoreIndexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,9 +228,11 @@ namespace backend.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("InventoryNumber")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Model")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -235,6 +240,7 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("SerialNumber")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");

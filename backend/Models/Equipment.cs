@@ -9,8 +9,8 @@ public class Equipment
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
-    public string Model { get; set; }
+    public string? Model { get; set; }
     public string Name { get; set; }
-    public string SerialNumber { get; set; }
-    public string InventoryNumber { get; set; }
+    public string? SerialNumber { get; set; }
+    public string? InventoryNumber { get; set; }
 }
