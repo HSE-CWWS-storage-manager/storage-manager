@@ -46,6 +46,19 @@ public class EquipmentOperationController(IAccountService accountService, IEquip
     }
     
     /// <summary>
+    /// Возврат оборудования
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<IActionResult> Return(EquipmentReturnRequest request)
+    {
+        return !ModelState.IsValid ? 
+            Problem() :
+            Ok(await equipmentOperationService.Return(request));
+    }
+    
+    /// <summary>
     /// Поиск операций в заданном диапазоне дат
     /// </summary>
     /// <param name="request"></param>

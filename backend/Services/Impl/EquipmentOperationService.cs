@@ -6,6 +6,7 @@ using common.Dtos;
 using common.Dtos.Request;
 using common.Dtos.Response;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services.Impl;
 
@@ -133,7 +134,9 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
 
     public async Task<EquipmentOperationDto> Return(EquipmentReturnRequest request)
     {
-        var transfer = dbContext.EquipmentTransfers
+        var transfer = EntityFrameworkQueryableExtensions.Include(EntityFrameworkQueryableExtensions
+                    .Include(dbContext.EquipmentTransfers, equipmentTransfer => equipmentTransfer.From),
+                equipmentTransfer => equipmentTransfer.Equipment)
             .FirstOrDefault(x => x.Id.Equals(request.OperationId));
         
         if (transfer == null)
@@ -141,6 +144,15 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
                 (int)HttpStatusCode.NotFound,
                 new HttpErrorMessageResponse($"Operation with id {request.OperationId} not found.")
             );
+        
+        var changeRequest = new ChangeEquipmentUnitCountRequest(
+            transfer.Equipment.Id,
+            transfer.From.Id,
+            1
+        );
+
+        await warehouseService.ExtractEquipmentFromLoan(changeRequest);
+        await warehouseService.AddEquipmentOnStock(changeRequest);
         
         transfer.ReturnDate = request.ReturnDate ?? DateTime.Now;
 
