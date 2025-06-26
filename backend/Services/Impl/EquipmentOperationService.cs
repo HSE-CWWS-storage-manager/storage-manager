@@ -60,7 +60,7 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
         {
             Equipment = equipment,
             Initiator = initiator,
-            IssueDate = DateTime.Now,
+            IssueDate = DateTime.UtcNow,
             Recipient = student,
             From = warehouse
         };
@@ -116,7 +116,7 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
         {
             Equipment = equipment,
             From = warehouse,
-            Date = DateTime.Now,
+            Date = DateTime.UtcNow,
             Initiator = initiator,
             Quantity = request.Quantity
         };
@@ -158,7 +158,7 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
         await warehouseService.ExtractEquipmentFromLoan(changeRequest);
         await warehouseService.AddEquipmentOnStock(changeRequest);
         
-        transfer.ReturnDate = request.ReturnDate ?? DateTime.Now;
+        transfer.ReturnDate = request.ReturnDate ?? DateTime.UtcNow;
 
         var entry = dbContext.Update(transfer);
 

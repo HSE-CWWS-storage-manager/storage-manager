@@ -44,7 +44,7 @@ public class EquipmentCardService(IEquipmentService equipmentService, StorageMan
         workbook.CurrentWorksheet.Cells[CellSerial].Value = equipment.SerialNumber;
         workbook.CurrentWorksheet.Cells[CellInventoryNumber].Value = equipment.InventoryNumber;
         workbook.CurrentWorksheet.Cells[CellStudent].Value = string.Format(StudentFormat, student.Name, student.Group);
-        workbook.CurrentWorksheet.Cells[CellDate].Value = DateTime.Now;
+        workbook.CurrentWorksheet.Cells[CellDate].Value = DateTime.UtcNow;
 
         using var memoryStream = new MemoryStream();
         workbook.SaveAsStream(memoryStream, true);
