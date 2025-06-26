@@ -67,6 +67,8 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
 
         var entry = await dbContext.EquipmentTransfers.AddAsync(transfer);
 
+        await dbContext.SaveChangesAsync();
+
         return new EquipmentOperationDto(
             entry.Entity.Id, 
             entry.Entity.From.Id, 
@@ -120,6 +122,8 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
         };
         
         var entry = await dbContext.EquipmentWriteOffs.AddAsync(writeOff);
+
+        await dbContext.SaveChangesAsync();
         
         return new EquipmentOperationDto(
             entry.Entity.Id, 
