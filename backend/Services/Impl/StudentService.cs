@@ -38,6 +38,22 @@ public class StudentService(IMapper mapper, StorageManagerDbContext dbContext) :
         return studentDto;
     }
 
+    public async Task<StudentDto> GetInfo(StudentGetInfoRequest request)
+    {
+        var studentDto = dbContext.Students
+            .Where(x => x.Id.Equals(request.StudentId))
+            .Select(x => mapper.Map<StudentDto>(x))
+            .FirstOrDefault();
+
+        if (studentDto == null)
+            throw new HttpResponseException(
+                (int) HttpStatusCode.NotFound,
+                new HttpErrorMessageResponse($"Student with name {request.StudentId} not found.")
+            );
+
+        return studentDto;
+    }
+
     public async Task<StudentDto> Update(StudentUpdateRequest request)
     {
         var student = dbContext.Students

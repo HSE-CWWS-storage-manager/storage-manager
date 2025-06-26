@@ -7,6 +7,7 @@ public interface IStudentService
 {
     Task<StudentDto> Create(StudentCreateRequest request);
     Task<StudentDto> Find(StudentFindRequest request);
+    Task<StudentDto> GetInfo(StudentGetInfoRequest request);
     Task<StudentDto> Update(StudentUpdateRequest request);
     Task<StudentDto> Delete(StudentDeleteRequest request);
 }

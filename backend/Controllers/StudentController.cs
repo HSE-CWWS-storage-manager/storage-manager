@@ -41,6 +41,17 @@ public class StudentController(IStudentService studentService) : ControllerBase
     }
     
     /// <summary>
+    /// Найти студента по его Guid
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpGet("GetInfo")]
+    public async Task<IActionResult> GetInfo([FromQuery] StudentGetInfoRequest request)
+    {
+        return !ModelState.IsValid ? Problem() : Ok(await studentService.GetInfo(request));
+    }
+    
+    /// <summary>
     /// Обновить запись о студенте
     /// </summary>
     /// <param name="request"></param>
