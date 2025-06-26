@@ -138,9 +138,10 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
 
     public async Task<EquipmentOperationDto> Return(EquipmentReturnRequest request)
     {
-        var transfer = EntityFrameworkQueryableExtensions.Include(EntityFrameworkQueryableExtensions
+        var transfer = EntityFrameworkQueryableExtensions.Include(EntityFrameworkQueryableExtensions.Include(
+                EntityFrameworkQueryableExtensions
                     .Include(dbContext.EquipmentTransfers, equipmentTransfer => equipmentTransfer.From),
-                equipmentTransfer => equipmentTransfer.Equipment)
+                equipmentTransfer => equipmentTransfer.Equipment), equipmentTransfer => equipmentTransfer.Recipient)
             .FirstOrDefault(x => x.Id.Equals(request.OperationId));
         
         if (transfer == null)
@@ -160,19 +161,19 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
         
         transfer.ReturnDate = request.ReturnDate ?? DateTime.UtcNow;
 
-        var entry = dbContext.Update(transfer);
+        dbContext.Update(transfer);
 
         await dbContext.SaveChangesAsync();
         
         return new EquipmentOperationDto(
-            entry.Entity.Id, 
-            entry.Entity.From.Id, 
-            entry.Entity.Equipment.Id, 
-            Guid.Parse(entry.Entity.Initiator.Id),
-            entry.Entity.IssueDate,
+            transfer.Id, 
+            transfer.From.Id, 
+            transfer.Equipment.Id, 
+            Guid.Parse(transfer.Initiator.Id),
+            transfer.IssueDate,
             EquipmentOperationType.Transfer,
-            entry.Entity.Recipient.Id,
-            ReturnDate: entry.Entity.ReturnDate
+            transfer.Recipient.Id,
+            ReturnDate: transfer.ReturnDate
         );
     }
 
