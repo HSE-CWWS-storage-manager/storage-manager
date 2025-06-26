@@ -138,10 +138,13 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
 
     public async Task<EquipmentOperationDto> Return(EquipmentReturnRequest request)
     {
-        var transfer = EntityFrameworkQueryableExtensions.Include(EntityFrameworkQueryableExtensions.Include(
-                EntityFrameworkQueryableExtensions
-                    .Include(dbContext.EquipmentTransfers, equipmentTransfer => equipmentTransfer.From),
-                equipmentTransfer => equipmentTransfer.Equipment), equipmentTransfer => equipmentTransfer.Recipient)
+        var transfer = EntityFrameworkQueryableExtensions.Include(
+                EntityFrameworkQueryableExtensions.Include(EntityFrameworkQueryableExtensions.Include(
+                    EntityFrameworkQueryableExtensions
+                        .Include(dbContext.EquipmentTransfers, equipmentTransfer => equipmentTransfer.From),
+                    equipmentTransfer => equipmentTransfer.Equipment), equipmentTransfer => equipmentTransfer.Recipient),
+                equipmentTransfer => equipmentTransfer.Initiator
+            )
             .FirstOrDefault(x => x.Id.Equals(request.OperationId));
         
         if (transfer == null)
