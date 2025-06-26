@@ -73,7 +73,8 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
             Guid.Parse(entry.Entity.Initiator.Id),
             entry.Entity.IssueDate,
             EquipmentOperationType.Transfer,
-            recipientId
+            recipientId,
+            ReturnDate: entry.Entity.ReturnDate
         );
     }
 
@@ -125,8 +126,37 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
             entry.Entity.Equipment.Id, 
             Guid.Parse(entry.Entity.Initiator.Id),
             entry.Entity.Date,
-            EquipmentOperationType.Transfer,
+            EquipmentOperationType.WriteOff,
             Quantity: request.Quantity
+        );
+    }
+
+    public async Task<EquipmentOperationDto> Return(EquipmentReturnRequest request)
+    {
+        var transfer = dbContext.EquipmentTransfers
+            .FirstOrDefault(x => x.Id.Equals(request.OperationId));
+        
+        if (transfer == null)
+            throw new HttpResponseException(
+                (int)HttpStatusCode.NotFound,
+                new HttpErrorMessageResponse($"Operation with id {request.OperationId} not found.")
+            );
+        
+        transfer.ReturnDate = request.ReturnDate ?? DateTime.Now;
+
+        var entry = dbContext.Update(transfer);
+
+        await dbContext.SaveChangesAsync();
+        
+        return new EquipmentOperationDto(
+            entry.Entity.Id, 
+            entry.Entity.From.Id, 
+            entry.Entity.Equipment.Id, 
+            Guid.Parse(entry.Entity.Initiator.Id),
+            entry.Entity.IssueDate,
+            EquipmentOperationType.Transfer,
+            entry.Entity.Recipient.Id,
+            ReturnDate: entry.Entity.ReturnDate
         );
     }
 
@@ -146,7 +176,8 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
                 x.IssueDate,
                 EquipmentOperationType.Transfer,
                 x.Recipient.Id,
-                null
+                null,
+                x.ReturnDate
             ))
             .ToList();
 
@@ -166,7 +197,8 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
                 x.Date,
                 EquipmentOperationType.WriteOff,
                 null,
-                x.Quantity
+                x.Quantity,
+                null
             ))
             .ToList();
 

@@ -14,5 +14,6 @@ public record EquipmentOperationDto(
     DateTime Date,
     EquipmentOperationType Type,
     Guid? RecipientId = null,
-    int? Quantity = null
+    int? Quantity = null,
+    DateTime? ReturnDate = null
 );

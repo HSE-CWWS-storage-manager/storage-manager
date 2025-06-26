@@ -15,4 +15,5 @@ public class EquipmentTransfer
     public Student Recipient { get; set; }
     public IdentityUser Initiator { get; set; }
     public DateTime IssueDate { get; set; }
+    public DateTime? ReturnDate { get; set; }
 }
