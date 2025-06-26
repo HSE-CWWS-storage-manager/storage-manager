@@ -52,9 +52,9 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
                 warehouseId,
                 1
         );
-
-        await warehouseService.AddEquipmentOnLoan(changeRequest);
+        
         await warehouseService.ExtractEquipmentFromStock(changeRequest);
+        await warehouseService.AddEquipmentOnLoan(changeRequest);
 
         var transfer = new EquipmentTransfer
         {
