@@ -50,7 +50,7 @@ public class EquipmentOperationController(IAccountService accountService, IEquip
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    [HttpPost]
+    [HttpPost("Return")]
     public async Task<IActionResult> Return(EquipmentReturnRequest request)
     {
         return !ModelState.IsValid ? 
