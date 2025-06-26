@@ -48,7 +48,7 @@ public class StudentService(IMapper mapper, StorageManagerDbContext dbContext) :
         if (studentDto == null)
             throw new HttpResponseException(
                 (int) HttpStatusCode.NotFound,
-                new HttpErrorMessageResponse($"Student with name {request.StudentId} not found.")
+                new HttpErrorMessageResponse($"Student with id {request.StudentId} not found.")
             );
 
         return studentDto;
