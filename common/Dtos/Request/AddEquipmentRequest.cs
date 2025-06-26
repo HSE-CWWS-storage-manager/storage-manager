@@ -7,5 +7,7 @@ public record AddEquipmentRequest(
     [Required(ErrorMessage = "Name is required")]
     string Name, 
     string? SerialNumber, 
-    string? InventoryNumber
+    string? InventoryNumber,
+    string? BalanceCost,
+    DateTime? AcceptDate
 );

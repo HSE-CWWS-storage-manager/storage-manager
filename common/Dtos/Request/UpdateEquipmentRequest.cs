@@ -8,5 +8,7 @@ public record UpdateEquipmentRequest(
     string? Model,
     string? Name,
     string? SerialNumber,
-    string? InventoryNumber
+    string? InventoryNumber,
+    string? BalanceCost,
+    DateTime? AcceptDate
 );

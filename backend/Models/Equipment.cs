@@ -13,4 +13,6 @@ public class Equipment
     public string Name { get; set; }
     public string? SerialNumber { get; set; }
     public string? InventoryNumber { get; set; }
+    public string? BalanceCost { get; set; }
+    public DateTime? AcceptDate { get; set; }
 }
