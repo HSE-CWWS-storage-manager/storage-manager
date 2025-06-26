@@ -6,6 +6,6 @@ public record EquipmentOperationsFindRequest(
     EquipmentOperationType? Type,
     Guid? WarehouseId,
     Guid? EquipmentId,
-    bool WithoutReturnDate = false,
+    bool? WithoutReturnDate,
     int Page = 1
 );

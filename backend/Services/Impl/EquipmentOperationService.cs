@@ -187,7 +187,7 @@ public class EquipmentOperationService(IWarehouseService warehouseService, Stora
                         (request.EndDate == null || x.IssueDate <= request.EndDate) &&
                         (request.EquipmentId == null || x.Equipment.Id.Equals(request.EquipmentId)) &&
                         (request.WarehouseId == null || x.From.Id.Equals(request.WarehouseId)) &&
-                        (!request.WithoutReturnDate || x.ReturnDate == null))
+                        (!(request.WithoutReturnDate != null && (bool)request.WithoutReturnDate) || x.ReturnDate == null))
             .OrderByDescending(x => x.IssueDate)
             .Skip((request.Page - 1) * PageSize)
             .Take(PageSize)
