@@ -4,10 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "backend", "backend\backend.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "common", "common\common.csproj", "{FDFDC389-4FB3-4934-AFCA-871524ADCC7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "frontend", "frontend\frontend\frontend.csproj", "{2590618B-FCEE-4F42-A489-C154B4E069D5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "frontend.Client", "frontend\frontend.Client\frontend.Client.csproj", "{BC80F802-DD03-4F15-813C-209D01CCB82E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "backend.Tests", "backend.Tests\backend.Tests.csproj", "{C143D690-2BB7-4D9D-A420-FADDFF6C29C0}"
 EndProject
 Global
@@ -24,14 +20,6 @@ Global
 		{FDFDC389-4FB3-4934-AFCA-871524ADCC7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDFDC389-4FB3-4934-AFCA-871524ADCC7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDFDC389-4FB3-4934-AFCA-871524ADCC7F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2590618B-FCEE-4F42-A489-C154B4E069D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2590618B-FCEE-4F42-A489-C154B4E069D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2590618B-FCEE-4F42-A489-C154B4E069D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2590618B-FCEE-4F42-A489-C154B4E069D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC80F802-DD03-4F15-813C-209D01CCB82E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC80F802-DD03-4F15-813C-209D01CCB82E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC80F802-DD03-4F15-813C-209D01CCB82E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC80F802-DD03-4F15-813C-209D01CCB82E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C143D690-2BB7-4D9D-A420-FADDFF6C29C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C143D690-2BB7-4D9D-A420-FADDFF6C29C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C143D690-2BB7-4D9D-A420-FADDFF6C29C0}.Release|Any CPU.ActiveCfg = Release|Any CPU

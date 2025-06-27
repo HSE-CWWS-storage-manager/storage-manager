@@ -20,7 +20,7 @@ public class EquipmentServiceTest : IDisposable, IAsyncDisposable
     [Fact]
     public async Task AddEquipment_ValidData_ReturnsNewEquipmentDto()
     {
-        var request = new AddEquipmentRequest("A", "B", "C", "D");
+        var request = new AddEquipmentRequest("A", "B", "C", "D", "1", DateTime.UtcNow);
         var actual = await _service.AddEquipment(request);
         
         Assert.Equal("A", actual.Model);
@@ -32,9 +32,9 @@ public class EquipmentServiceTest : IDisposable, IAsyncDisposable
     [Fact]
     public async Task UpdateEquipment_ValidData_ReturnsUpdatedEquipmentDto()
     {
-        var newEquipment = await _service.AddEquipment(new AddEquipmentRequest("A", "B", "C", "D"));
+        var newEquipment = await _service.AddEquipment(new AddEquipmentRequest("A", "B", "C", "D", "1", DateTime.UtcNow));
         
-        var request = new UpdateEquipmentRequest(newEquipment.Id, "D", "C", "B", "A");
+        var request = new UpdateEquipmentRequest(newEquipment.Id, "D", "C", "B", "A", "1", DateTime.UtcNow);
         var actual = await _service.UpdateEquipment(request);
         
         Assert.Equal("D", actual.Model);
@@ -46,7 +46,7 @@ public class EquipmentServiceTest : IDisposable, IAsyncDisposable
     [Fact]
     public async Task FindEquipment_ValidData_ReturnsAllNeededData()
     {
-        await _service.AddEquipment(new AddEquipmentRequest("S", "O", "R", "P"));
+        await _service.AddEquipment(new AddEquipmentRequest("S", "O", "R", "P", "1", DateTime.UtcNow));
 
         var request = new EquipmentFindRequest(Query: "O");
         var actual = _service.FindEquipment(request);
@@ -64,7 +64,7 @@ public class EquipmentServiceTest : IDisposable, IAsyncDisposable
     [Fact]
     public async Task DeleteEquipment_ValidData_ReturnsAllNeededData()
     {
-        var newEquipment = await _service.AddEquipment(new AddEquipmentRequest("S", "O", "R", "P"));
+        var newEquipment = await _service.AddEquipment(new AddEquipmentRequest("S", "O", "R", "P", "1", DateTime.UtcNow));
 
         var request = new DeleteEquipmentRequest(newEquipment.Id);
         await _service.DeleteEquipment(request);
