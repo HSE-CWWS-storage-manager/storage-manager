@@ -7,5 +7,6 @@ public record EquipmentOperationsFindRequest(
     Guid? WarehouseId,
     Guid? EquipmentId,
     bool? WithoutReturnDate,
+    bool? OnlyWithReturnDate,
     int Page = 1
 );
