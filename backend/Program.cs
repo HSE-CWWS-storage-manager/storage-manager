@@ -107,6 +107,17 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+    try
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<StorageManagerDbContext>();
+        dbContext.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+    }
+    
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
     if (!await roleManager.RoleExistsAsync(AdminRole))
