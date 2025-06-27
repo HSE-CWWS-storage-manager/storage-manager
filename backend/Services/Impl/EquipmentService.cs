@@ -39,6 +39,7 @@ public class EquipmentService(IMapper mapper, StorageManagerDbContext dbContext)
             return new EquipmentFindResponse(
                 dbContext.Equipments.Where(x => x.Id.Equals(request.EquipmentId))
                     .Select(x => mapper.Map<EquipmentDto>(x))
+                    .ToList()
                     .OrderBy(x => x.Name)
                     .ToList()
             );
@@ -48,6 +49,7 @@ public class EquipmentService(IMapper mapper, StorageManagerDbContext dbContext)
                 dbContext.Equipments.Select(x => mapper.Map<EquipmentDto>(x))
                     .Skip(PageSize * (request.Page - 1))
                     .Take(PageSize)
+                    .ToList()
                     .OrderBy(x => x.Name)
                     .ToList()
             );
@@ -60,6 +62,7 @@ public class EquipmentService(IMapper mapper, StorageManagerDbContext dbContext)
                 .Select(x => mapper.Map<EquipmentDto>(x))
                 .Skip(PageSize * (request.Page - 1))
                 .Take(PageSize)
+                .ToList()
                 .OrderBy(x => x.Name)
                 .ToList()
         );
